@@ -1,0 +1,9 @@
+/* grunt-less chokes on font faces */
+
+@font-face {
+	font-family: 'Chisel';
+	src: url('/fonts/chizam.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+		url('/fonts/chizam.woff') format('woff'), /* Modern Browsers */
+		url('/fonts/chizam.ttf') format('truetype'), /* Safari, Android, iOS */
+		url('/fonts/chizam.svg#chizam') format('svg'); /* Legacy iOS */
+}
