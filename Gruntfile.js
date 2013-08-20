@@ -292,13 +292,12 @@ module.exports = function(grunt) {
 			}
 		},
 		uglify: {
-			js: {
+			site: {
 				files: {
-					'js/site.min.js': [
-						'js/site.src.js'
-					]
+					'js/site.min.js': ['js/site.src.js'],
 				}
-			}
+			},
+
 		},
 		watch: {
 			// if you have issues with either spawn or TOO many files use the commnd below and restart terminal
@@ -448,9 +447,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-imageoptim');
 
 	grunt.registerTask('default', ['less', 'concat', 'watch']);
 };

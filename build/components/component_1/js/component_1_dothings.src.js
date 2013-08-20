@@ -1,7 +1,5 @@
-(function ($) {
-	"use strict";
+"use strict";
 
+DO.Subscribe('app:ready', function(e, $) {
 
-
-	});
-})(jQuery);
+});
