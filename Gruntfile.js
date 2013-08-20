@@ -269,13 +269,36 @@ module.exports = function(grunt) {
 			},
 			js: {
 				src: [
-
+					'build/global/js/vendor/jquery-1.9.1.min.js',
+					'build/global/js/vendor/jquery-migrate-1.1.1.min.js',
+					'build/global/js/vendor/modernizr.custom.min.js',
+					'build/global/js/vendor/modernizr-extensions.src.js',
+					'build/global/js/vendor/ios-orientationchange-fix.src.js',
+					'build/global/js/vendor/response.src.js',
+					'build/global/js/vendor/jquery.placeholder.1.3.src.js',
+					//**
+					'build/global/js/do.src.js',
+					'build/global/js/jquery.whim.src.js',
+					'build/global/js/browser_detection.src.js',
+					'build/global/js/responseTrigger.src.js',
+					//**
+					'build/components/**/js/vendor/*.js',
+					'build/components/**/js/*.js',
+					//**
+					'build/global/js/start.src.js'
 				],
-				dest: 'js/dist/site.src.js',
+				dest: 'js/site.src.js',
 				seperator: '\n'
 			}
 		},
 		uglify: {
+			js: {
+				files: {
+					'js/site.min.js': [
+						'js/site.src.js'
+					]
+				}
+			}
 		},
 		watch: {
 			// if you have issues with either spawn or TOO many files use the commnd below and restart terminal
