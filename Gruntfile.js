@@ -105,6 +105,8 @@ module.exports = function(grunt) {
 	};
 	watch['js'] = {
 		files: [
+			'build/global/js/vendor/*.js',
+			'build/global/js/*.js',
 			'build/components/**/js/vendor/*.js',
 			'build/components/**/js/*.js',
 		],
