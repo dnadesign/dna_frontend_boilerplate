@@ -3,7 +3,16 @@ module.exports = function(grunt) {
 	//prepare frontend boilerplate
 	var 
 		less = {}, concat = {}, watch = {},
-		sizes = ['xsmall','small','medium','large','xlarge','xxlarge','xxxlarge','xxxxlarge'],
+		sizes = [ //defaults in comments
+			'xsmall', //this always shows
+			'small', //30em
+			'medium', //46.875em
+			'large', //56em
+			'xlarge', //62em
+			'xxlarge', //70em
+			'xxxlarge', //80em
+			'xxxxlarge' //100em
+		],
 		basename = sizes[0],
 		components_css_dir = "build/components/**/css",
 		global_css_dir = "build/global/css",
