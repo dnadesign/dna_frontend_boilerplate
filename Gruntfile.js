@@ -31,7 +31,7 @@ module.exports = function(grunt) {
 				global_css_dir+'/helpers/queries.close.css',
 				global_css_dir+'/helpers/queries.'+size+'.retina.css',
 				'css/build/'+size+'.retina.min.css',
-				global_css_dir+'/queries.close2.css'
+				global_css_dir+'/helpers/queries.close2.css'
 			],
 			dest: 'css/dist/'+size+'.min.css',
 			seperator: '\n'
