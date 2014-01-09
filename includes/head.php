@@ -15,17 +15,24 @@
 	<meta name="application-name" content="SiteName" /><!-- information for pinned sites: http://msdn.microsoft.com/en-nz/library/ie/gg491732%28v=vs.85%29.aspx -->
 	<meta name="msapplication-tooltip" content="A description of what this site does." />
 
-	<!-- For third-generation iPad with high-resolution Retina display: -->
-	<!-- For iPhone with high-resolution Retina display: -->
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114x114-precomposed.png">
-	<!-- For first- and second-generation iPad: -->
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72x72-precomposed.png">
-	<!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
-	<link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
-	<meta name="format-detection" content="telephone=no"><!-- disable telephone number detection -->
+	<link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-touch-icon-57x57.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="/icons/apple-touch-icon-114x114.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-touch-icon-72x72.png" />
+	<link rel="apple-touch-icon" sizes="144x144" href="/icons/apple-touch-icon-144x144.png" />
+	<link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-touch-icon-60x60.png" />
+	<link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-touch-icon-120x120.png" />
+	<link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-touch-icon-76x76.png" />
+	<link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152x152.png" />
+	<link rel="icon" type="image/png" href="/icons/favicon-196x196.png" sizes="196x196" />
+	<link rel="icon" type="image/png" href="/icons/favicon-160x160.png" sizes="160x160" />
+	<link rel="icon" type="image/png" href="/icons/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/png" href="/icons/favicon-32x32.png" sizes="32x32" />
+	<link rel="icon" type="image/png" href="/icons/favicon-16x16.png" sizes="16x16" />
+	<meta name="msapplication-TileColor" content="#ffffff" />
+	<meta name="msapplication-TileImage" content="/icons/mstile-144x144.png" />
 
 	<!-- dev, seperate files for debugging -->
-	<link rel="stylesheet" type="text/css" href="/css/dist/xsmall.min.css" />
+	<!-- <link rel="stylesheet" type="text/css" href="/css/dist/xsmall.min.css" />
 	<link rel="stylesheet" type="text/css" href="/css/dist/small.min.css" />
 	<link rel="stylesheet" type="text/css" href="/css/dist/medium.min.css" />
 	<link rel="stylesheet" type="text/css" href="/css/dist/large.min.css" />
@@ -33,16 +40,13 @@
 	<link rel="stylesheet" type="text/css" href="/css/dist/xxlarge.min.css" />
 	<link rel="stylesheet" type="text/css" href="/css/dist/xxxlarge.min.css" />
 	<link rel="stylesheet" type="text/css" href="/css/dist/xxxxlarge.min.css" />
-	<link rel="stylesheet" type="text/css" href="/css/dist/print.css" />
+	<link rel="stylesheet" type="text/css" href="/css/dist/print.css" /> -->
 
-	<!-- production -->
-	<!-- <link rel="stylesheet" type="text/css" href="//css/dist/production.min.css" /> -->
-
-	<!-- dev, seperate files for debugging -->
-	<script src="/js/site.src.js"></script>
-
-	<!-- production, not ready for use yet -->
-	<!--<script src="/js/site.min.js"></script>-->
+	<!--[if lt IE 9]>
+		<link href="/app/css/dist/production_dumb.min.css" type="text/css" rel="stylesheet">
+	<![endif]-->
+	<!--[if gte IE 9]><!--><link href="/app/css/dist/production.min.css" type="text/css" rel="stylesheet"><!--<![endif]-->
+	<script src="/app/build/global/js/vendor/modernizr.custom.min.js" type="text/javascript"></script>
 
 </head>
 <body>
