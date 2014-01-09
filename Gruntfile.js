@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
 
 	//prepare frontend boilerplate
-	var 
+	var
 		less = {}, concat = {}, watch = {},
 		sizes = [ //defaults in comments
 			'xsmall', //this always shows
@@ -45,6 +45,13 @@ module.exports = function(grunt) {
 			dest: 'css/dist/'+size+'.min.css',
 			seperator: '\n'
 		};
+		concat["css_"+size+"_dumb"] = {
+			src: [
+				'css/build/'+size+'.min.css'
+			],
+			dest: 'css/dist/'+size+'_dumb.min.css',
+			seperator: '\n'
+		};
 		watch["css_"+size] = {
 			files: [
 				global_css_dir+'/elements/**/*.'+size+'.less',
@@ -57,13 +64,15 @@ module.exports = function(grunt) {
 			tasks: [
 				'less:'+size,
 				'concat:css_'+size,
-				'concat:css_production'
+				'concat:css_'+size+'_dumb',
+				'concat:css_production',
+				'concat:css_production_dumb'
 			]
 		};
 
-	};	
+	};
 	//add in specific locations
-	
+
 	less[basename].files['css/build/'+basename+'.min.css'].unshift(global_css_dir+'/utility.less');
 	less[basename].files['css/build/'+basename+'.min.css'].unshift(global_css_dir+'/reset.less');
 
@@ -95,9 +104,34 @@ module.exports = function(grunt) {
 		dest: 'css/dist/production.min.css',
 		seperator: '\n'
 	};
+	concat['css_production_dumb'] = {
+		src: [
+			'<banner>',
+			'css/dist/xsmall_dumb.min.css',
+			'css/dist/small_dumb.min.css',
+			'css/dist/medium_dumb.min.css',
+			'css/dist/large_dumb.min.css',
+			'css/dist/xlarge_dumb.min.css',
+			'css/dist/print.css'
+		],
+		dest: 'css/dist/production_dumb.min.css',
+		seperator: '\n'
+	};
 	concat['js'] = {
 		src: [
-
+			// modernizr at the top of the page so not included here
+			'build/global/js/vendor/jquery-1.9.1.min.js',
+			'build/global/js/vendor/jquery-migrate-1.1.1.min.js',
+			'build/global/js/vendor/ios-orientationchange-fix.src.js',
+			'build/global/js/vendor/response.src.js',
+			'build/global/js/vendor/highcharts.js',
+			'build/global/js/do.src.js',
+			'build/global/js/browser_detection.src.js',
+			'build/global/js/jquery.whim.src.js',
+			'build/global/js/responseTrigger.src.js',
+			'build/components/**/js/vendor/*.js',
+			'build/components/**/js/*.js',
+			'build/global/js/start.src.js',
 		],
 		dest: 'js/dist/site.src.js',
 		seperator: '\n'
@@ -109,7 +143,8 @@ module.exports = function(grunt) {
 		],
 		tasks: [
 			'less:print',
-			'concat:css_production'
+			'concat:css_production',
+			'concat:css_production_dumb'
 		]
 	};
 	watch['js'] = {
