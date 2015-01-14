@@ -39,8 +39,8 @@ While re-using a component across projects seems like a good goal, it's only a b
 
 ##### 2) New file for each breakpoint and resolution
 
-* component_1.xsmall.less
-* component_1.xsmall.retina.less
+* component_1.base.less
+* component_1.base.retina.less
 * component_1.small.less
 * component_1.small.retina.less
 * etc

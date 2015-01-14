@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 	var
 		less = {}, concat = {}, watch = {},
 		sizes = [ //defaults in comments
-			'xsmall', //this always shows
+			'base', //this always shows
 			'small', //30em
 			'medium', //46.875em
 			'large', //56em
@@ -91,7 +91,7 @@ module.exports = function(grunt) {
 	concat['css_production'] = {
 		src: [
 			'<banner>',
-			'css/dist/xsmall.min.css',
+			'css/dist/base.min.css',
 			'css/dist/small.min.css',
 			'css/dist/medium.min.css',
 			'css/dist/large.min.css',
@@ -107,7 +107,7 @@ module.exports = function(grunt) {
 	concat['css_production_dumb'] = {
 		src: [
 			'<banner>',
-			'css/dist/xsmall_dumb.min.css',
+			'css/dist/base_dumb.min.css',
 			'css/dist/small_dumb.min.css',
 			'css/dist/medium_dumb.min.css',
 			'css/dist/large_dumb.min.css',
@@ -163,7 +163,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		meta: {
-			banner: '/*! DNA Designed Communications Limited | Copyright 2012 */'
+			banner: '/*! DNA Designed Communications Limited | Copyright 2015*/'
 		},
 		imageoptim: {
 			// these paths should match directories

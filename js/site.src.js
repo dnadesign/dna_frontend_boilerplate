@@ -1722,7 +1722,7 @@ DO.OnMobile = function() {
 (function ($) {
 	"use strict";
 
-	window.savedBreakpoint = 'xsmall';
+	window.savedBreakpoint = 'base';
 
 	var	methods = {
 		bodyFontSize: function () {
@@ -1744,7 +1744,7 @@ DO.OnMobile = function() {
 			var breakpoint = null,
 				breakPoints = $(window).data('breakpoints').x,
 				breakPointsLabels = [],
-				labels = ['xsmall', 'small', 'medium', 'large', 'xlarge', 'xxlarge', 'xxxlarge', 'xxxxlarge'],
+				labels = ['base', 'small', 'medium', 'large', 'xlarge', 'xxlarge', 'xxxlarge', 'xxxxlarge'],
 				i = 0;
 
 			$(breakPoints).each(function () {

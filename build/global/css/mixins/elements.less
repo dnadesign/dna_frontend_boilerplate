@@ -11,21 +11,6 @@
 		More info at: http://lesselements.com
 -----------------------------------------------------*/
 
-.gradient(@color: #F5F5F5, @start: #EEE, @stop: #FFF) {
-	background: @color;
-	background: -webkit-gradient(linear,
-															left bottom,
-															left top,
-															color-stop(0, @start),
-															color-stop(1, @stop));
-	background: -ms-linear-gradient(bottom,
-																	@start,
-																	@stop);
-	background: -moz-linear-gradient(center bottom,
-																	@start 0%,
-																	@stop 100%);
-}
-
 .box-sizing (@type: border-box) {
 	-webkit-box-sizing: @type;
 	-moz-box-sizing:    @type;
@@ -166,6 +151,14 @@
 	background-image: linear-gradient(to bottom, @color1 0%,@color2 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=@color1, endColorstr=@color2,GradientType=0 );
 }
+.gradient_no_ie (@color1, @color2){
+	background: @color1;
+	background-image: -moz-linear-gradient(top, @color1 0%, @color2 100%);
+	background-image: -webkit-linear-gradient(top, @color1 0%,@color2 100%);
+	background-image: -o-linear-gradient(top, @color1 0%,@color2 100%);
+	background-image: linear-gradient(to bottom, @color1 0%,@color2 100%);
+}
+
 .gradient (@color1, @color2, @color3){
 	background: @color3;
 	background-image: -moz-linear-gradient(top, @color1 0%, @color2 100%);
@@ -251,3 +244,18 @@
 }
 .animate (...) {.animation(@arguments);}
 .anime (...) {.animation(@arguments);}
+
+.clearfix() {
+
+	&:before,
+	&:after {
+		color: transparent;
+		content: ' ';
+		display: block;
+		height: 0;
+		overflow: hidden;
+	}
+
+	&:after { clear: both; }
+
+}

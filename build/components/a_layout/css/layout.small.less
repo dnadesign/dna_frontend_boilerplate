@@ -1,0 +1,21 @@
+@import "build/global/css/mixins/all.less";
+
+.visible_base,
+.visible_medium,
+.visible_large {
+  .responsive-invisibility();
+}
+
+.visible_small {
+  .responsive-visibility();
+}
+
+.hidden_base,
+.hidden_medium,
+.hidden_large  {
+  .responsive-visibility();
+}
+
+.hidden_small {
+  .responsive-invisibility();
+}
