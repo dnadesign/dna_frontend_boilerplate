@@ -18,6 +18,17 @@ module.exports = function(grunt) {
 		global_css_dir = "build/global/css",
 		dist_dir = 'css/dist';
 
+	less['grid'] = {
+		options: {
+			paths: ['less'],
+			compress: true
+		},
+		files: {
+			'css/dist/grid.media.min.css': global_css_dir+'/mixins/grid.media.less',
+			'css/dist/grid.dumb.min.css': global_css_dir+'/mixins/grid.dumb.less'
+		}
+	};
+
 	for (var i = 0; i < sizes.length; i++) {
 
 		var size = sizes[i], lessfiles = {};
@@ -91,6 +102,7 @@ module.exports = function(grunt) {
 	concat['css_production'] = {
 		src: [
 			'<banner>',
+			'css/dist/grid.media.min.css',
 			'css/dist/base.min.css',
 			'css/dist/small.min.css',
 			'css/dist/medium.min.css',
@@ -107,6 +119,7 @@ module.exports = function(grunt) {
 	concat['css_production_dumb'] = {
 		src: [
 			'<banner>',
+			'css/dist/grid.dumb.min.css',
 			'css/dist/base_dumb.min.css',
 			'css/dist/small_dumb.min.css',
 			'css/dist/medium_dumb.min.css',
