@@ -1,0 +1,86 @@
+#!/usr/bin/env php
+<?php
+
+
+$op = (isset($_SERVER['argv'][1]));
+$pwd = $_SERVER['PWD'];
+$assets = dirname(dirname(realpath($_SERVER['argv'][0]))) .'/assets';
+
+$setupFiles = array(
+	'Gruntfile.js',
+	'package.json',
+	'Makefile'
+);
+
+$setupFolders = array(
+	'build',
+	'dist'
+);
+
+$bower = array(
+	'jquery',
+	'bootstrap'
+);
+
+switch($op) {
+	case 'setup':
+		foreach($setupFiles as $file) {
+			echo "Writing $file\n";
+
+			file_put_contents(
+				$pwd .'/'. $file, 
+				file_get_contents($assets .'/'. $file)
+			);
+		}
+
+		foreach($setupFolders as $folder) {
+			echo "Creating $folder/\n";
+			
+			if(!file_exists($pwd.'/'.$folder)) {
+				mkdir($pwd.'/'. $folder);
+			}
+		}
+
+		echo "\nSetting up NPM\n";
+		exec("npm install --silent");
+
+		echo "\nInstalling bower\n";
+		exec("npm install bower &>/dev/null");
+
+		echo "\nSetting up bower\n";
+
+		foreach($bower as $dependancy) {
+			exec("bower install $dependancy");
+		}
+	break;
+	case 'create':
+		if(isset($_SERVER['argv'][2])) {
+			$folder = $_SERVER['argv'][2];
+
+			echo "Creating $folder";
+			$path = $pwd.'/build/'.$folder;
+
+			if(!file_exists($path)) {
+				mkdir($path);
+			}
+		} else {
+			echo "Please provide a component name";
+		}
+	break;
+	case 'remove':
+		if(isset($_SERVER['argv'][2])) {
+			$folder = $_SERVER['argv'][2];
+			echo "Removing $folder";
+			$path = $pwd.'/build/'.$folder;
+
+			if(file_exists($path)) {
+				rmdir($path);
+			}
+
+		} else {
+			echo "Please provide a component name";
+		}
+	break;
+	default:
+		echo "helix [setup|create|install|remove]";
+}
