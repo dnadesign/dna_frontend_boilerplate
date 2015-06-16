@@ -19,7 +19,8 @@ $setupFolders = array(
 
 $bower = array(
 	'jquery',
-	'bootstrap'
+	'bootstrap',
+	'radio'
 );
 
 switch($op) {
