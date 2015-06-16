@@ -1,31 +1,27 @@
-/** CMS LIST STYLES **/
+@import "build/global/css/mixins/all.less";
+
 ul {
 	list-style-type: disc;
-	margin: -9px 0 9px 2px;
 	padding: 0;
 }
+
 ol {
 	list-style-type: decimal;
-	margin: -9px 0 9px 15px;
 	padding: 0;
 }
 
 .list_semantic {
 	margin: 0;
-}
 
-li ul,
-li ol {
+	li {
+		list-style: none;
+		margin-left: 0;
+	}
 }
 
 ul li,
 ol li {
 	margin-left: 12px;
-}
-
-.list_semantic li {
-	list-style: none;
-	margin-left: 0;
 }
 
 li ul {
