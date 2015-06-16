@@ -1,0 +1,29 @@
+@import "build/global/css/mixins/all.less";
+
+.wrapper {
+	width: 96%;
+	max-width: 1160px;
+	padding: 0;
+	margin: 0 auto;
+
+}
+
+.visible_base,
+.visible_small,
+.visible_medium {
+  .responsive-invisibility();
+}
+
+.visible_large {
+  .responsive-visibility();
+}
+
+.hidden_base,
+.hidden_small,
+.hidden_medium {
+  .responsive-visibility();
+}
+
+.hidden_large {
+  .responsive-invisibility();
+}
