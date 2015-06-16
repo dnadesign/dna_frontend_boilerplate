@@ -44,7 +44,10 @@ audio:not([controls]) { display: none; }
 
 .chromeframe { margin: 0.2em 0; background: #ccc; color: black; padding: 0.2em 0; }
 
-/* Sitecore resets */
-div.scLooseFrameZone {
-	overflow-y: visible !important;
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
 }
