@@ -1,0 +1,65 @@
+/**
+ * Custom mixins for TP.
+ *
+ */
+@import "elements.less";
+
+/* Does not use filter for rotating on IE as the results are ass */
+.rotate(@deg) {
+	-webkit-transform: rotate(@deg);
+	-moz-transform: rotate(@deg);
+	-ms-transform: rotate(@deg);
+	-o-transform: rotate(@deg);
+	transform: rotate(@deg);
+
+	-webkit-transform-origin: 50% 50%;
+	-moz-transform-origin: 50% 50%;
+	-ms-transform-origin: 50% 50%;
+	-o-transform-origin: 50% 50%;
+	transform-origin: 50% 50%;
+}
+
+.at2x(@path, @w: auto, @h: auto, @bkpx: 0, @bkpy: 0) {
+  background-image: url(@path);
+  background-position: @bkpx @bkpy;
+
+  @at2x_path: ~`"@{path}".split('.').slice(0, "@{path}".split('.').length - 1).join(".") + "@2x" + "." + "@{path}".split('.')["@{path}".split('.').length - 1]`;
+
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+    background-image: url(@at2x_path);
+    /* background-position: @bkpx * 2,@bkpy * 2; */
+    background-size: @w @h;
+  }
+}
+
+/**
+ * Responsive utilities
+ * More easily include all the states for responsive-utilities.less. (from twitter bootstrap)
+ */
+.responsive-visibility() {
+	display: block !important;
+	table&  { display: table; }
+	tr&     { display: table-row !important; }
+	th&,
+	td&     { display: table-cell !important; }
+}
+
+.responsive-invisibility() {
+    &,
+	tr&,
+	th&,
+	td& { display: none !important; }
+}
+
+.icon() {
+	font-family:"icons";
+	display:inline-block;
+	font-weight:normal;
+	font-style:normal;
+	speak:none;
+	text-decoration:inherit;
+	text-transform:none;
+	text-rendering:optimizeLegibility;
+	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale;
+}

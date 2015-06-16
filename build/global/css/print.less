@@ -1,0 +1,93 @@
+@import "build/global/css/mixins/all.less";
+
+@media print {
+
+	* {
+		background: transparent !important;
+		color: black !important;
+		box-shadow: none !important;
+		text-shadow: none !important;
+		filter: none !important;
+		-ms-filter: none !important;
+	}
+
+	a,a:visited {
+		text-decoration: underline;
+	}
+
+	abbr[title]:after {
+		content: " (" attr(title) ")";
+	}
+
+	.ir a:after,a[href ^="javascript:"]:after,a[href ^="#"]:after {
+		content: "";
+	}
+
+	pre,blockquote {
+		page-break-inside: avoid;
+	}
+
+	thead {
+		display: table-header-group;
+	}
+
+	tr,img {
+		page-break-inside: avoid;
+	}
+
+	img {
+		max-width: 100% !important;
+	}
+
+	@page {
+		margin: 0.5cm;
+	}
+
+	p,h2,h3 {
+		orphans: 3;
+		widows: 3;
+	}
+
+	h1 {
+		margin-bottom: 10px;
+	}
+
+	h2,h3 {
+		page-break-after: avoid;
+	}
+
+	.no_print {
+		display: none !important;
+	}
+
+	.col-sm-8,
+	.col-sm-9,
+	.col-sm-10,
+	.col-sm-11,
+	.col-md-8,
+	.col-md-11,
+	.col-md-7,
+	.col-md-9 {
+		clear: both;
+		width: 100%;
+	}
+
+	.content_block_btn {
+		display: none !important;
+	}
+
+	table {
+		border-collapse: collapse;
+		border-spacing: 0;
+		width: 100%;
+	}
+
+	td {
+		padding: 10px;
+		border: 1px solid #999;
+	}
+
+	th {
+		padding: 10px;
+	}
+}

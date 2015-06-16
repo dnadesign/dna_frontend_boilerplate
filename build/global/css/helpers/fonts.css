@@ -1,0 +1,9 @@
+/* grunt-less chokes on font faces */
+
+@font-face {
+	font-family: 'Font-face-name';
+	src: url('/fonts/font.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+		url('/fonts/font.woff') format('woff'), /* Modern Browsers */
+		url('/fonts/font.ttf') format('truetype'), /* Safari, Android, iOS */
+		url('/fonts/font.svg#font') format('svg'); /* Legacy iOS */
+}

@@ -1,0 +1,140 @@
+@import "build/global/css/mixins/elements.less";
+@import "build/global/css/mixins/em.less";
+
+/* =============================================================================
+	Carousel
+	========================================================================== */
+
+.carousel {
+	margin: 0 auto;
+	position: relative;
+}
+
+.carousel_holder {
+	overflow: hidden;
+	padding-top: 0;
+	position: relative;
+}
+
+.carousel_page {
+	float: left;
+	height: 100%;
+	position: relative;
+	width: 100%;
+}
+
+/* Next & Prev */
+.carousel_previous,
+.carousel_next {
+	background: url("/images/carousel_controls.png") no-repeat center 0px;
+	cursor: pointer;
+	height: 0;
+	margin-top: -1.5em;
+	overflow: hidden;
+	padding-top: 29px; /*p*/
+	position: absolute;
+	top: 50%;
+	width: 29px; /*p*/
+}
+
+.no-js .carousel_previous,
+.no-js .carousel_next {
+	display: none
+}
+
+.carousel_previous {
+	left: -2.9em;
+}
+
+.no-touch .carousel_previous:hover,
+.carousel_previous:active {
+	background-position: center -29px; /*p*/
+}
+
+.carousel_next {
+	background-position: center -58px; /*p*/
+	right: -2.9em;
+}
+
+.no-touch .carousel_next:hover,
+.carousel_next:active {
+	background-position: center -87px; /*p*/
+}
+
+/* Pager */
+.carousel_pager {
+	margin: 0;
+	padding: 0.5em 0;
+	text-align: center;
+	position:absolute;
+	width:100%;
+}
+
+.no-js .carousel_pager {
+	display: none;
+}
+
+.carousel_pager li {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+
+.carousel_pager li:before {
+	display: none;
+}
+
+.carousel_pager li .a {
+	// background: transparent url(/images/carousel_pager.png) no-repeat 12px 12px;
+	display: inline-block;
+	height: 11px;
+	border-radius:11px;
+	overflow: hidden;
+	//padding-top: 40px; /*p*/
+	text-indent:101%;
+	white-space: nowrap;
+	width: 11px; /*p*/
+	background-color:#CCCCCC;
+	margin-left:10px;
+	cursor:pointer;
+}
+
+.carousel_pager li .a:hover {
+	// background-position: -26px 12px; /*p*/
+	background-color:#5496B8;
+}
+
+.carousel_pager li .a.active {
+	//background-position: -66px 12px; /*p*/
+	background-color:#5496B8;
+}
+
+/* Carousel Items */
+.carousel .carousel_items {
+	left: 0;
+	top: 0;
+	width: 100%;
+	overflow:hidden;
+}
+
+.carousel_item {
+	display: none;
+	float: left;
+	height: 100%;
+	position: relative;
+	width: 100%;
+	zoom: 1;
+}
+
+.carousel_item:first-child {
+	display: block;
+}
+
+.carousel_ready .carousel_item {
+	display: block;
+}
+
+.carousel_item img {
+	width: 100%;
+	display:block;
+}

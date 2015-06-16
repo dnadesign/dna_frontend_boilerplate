@@ -1,4 +1,4 @@
-# DNA Front-end boilerplate
+# DNA Front-end boilerplate (Helix)
 
 At DNA we're well known for producing well crafted and tailored design solutions 
 and our development team has always done the same with the code they've 
