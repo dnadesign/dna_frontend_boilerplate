@@ -8,7 +8,7 @@ module.exports = function(grunt) {
 
 	//prepare frontend boilerplate
 	var
-		less = {}, concat = {}, watch = {},
+		concat = {}, less = {}, modernizr = {}, watch = {},
 		sizes = [ //defaults in comments
 			'base', //this always shows
 			'small', //30em
@@ -233,6 +233,7 @@ module.exports = function(grunt) {
 		},
 		less: less,
 		concat: concat,
+		modernizr: modernizr,
 		watch: watch
 	});
 
@@ -244,6 +245,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-kss');
 	grunt.loadNpmTasks('grunt-imageoptim');
+	grunt.loadNpmTasks("grunt-modernizr");
 
 
 	grunt.registerTask('default', ['less', 'concat', 'watch']);
