@@ -146,7 +146,6 @@ module.exports = function(grunt) {
 			'build/global/js/vendor/highcharts.js',
 			'build/global/js/do.src.js',
 			'build/global/js/browser_detection.src.js',
-			'build/global/js/jquery.whim.src.js',
 			'build/global/js/responseTrigger.src.js',
 			'build/components/**/js/vendor/*.js',
 			'build/components/**/js/*.js',
