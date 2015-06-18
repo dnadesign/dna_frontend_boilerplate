@@ -249,10 +249,7 @@ module.exports = function(grunt) {
 
 	//do grunt configuration
 	grunt.initConfig({
-		pkg: grunt.file.readJSON('package.json'),
-		meta: {
-			banner: '/*! DNA Designed Communications Limited | Copyright 2015 */'
-		},
+		concat: concat,
 		imageoptim: {
 			// these paths should match directories
 			files: ['images'],
@@ -261,8 +258,11 @@ module.exports = function(grunt) {
 			}
 		},
 		less: less,
-		concat: concat,
+		meta: {
+			banner: '/*! DNA Designed Communications Limited | Copyright 2015 */'
+		},
 		modernizr: modernizr,
+		pkg: grunt.file.readJSON('package.json'),
 		watch: watch
 	});
 
