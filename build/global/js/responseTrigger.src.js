@@ -1,6 +1,6 @@
 $(window).data('breakpoints', {
 	x: [0, 480, 750, 896, 992, 1120, 1280, 1600],
-	y: [0, 480, 560, 750, 896]
+	y: []
 });
 
 DO.Subscribe('app:ready', function(e, $) {
@@ -17,20 +17,8 @@ DO.Subscribe('app:ready', function(e, $) {
 	Response.action(function() {
 		if(DO.CurrentBreakpoint() !== breakpoint) {
 			DO.Fire('app:breakpointchange');
-
-			var from = breakpoint;
-			breakpoint = DO.CurrentBreakpoint();
-
-			if(!/large$/.test(from) && /large$/.test(breakpoint)) {
-				DO.Fire('app:breakpointchangetodesktop');
-			}
-
-			if(/large$/.test(from) && !/large$/.test(breakpoint)) {
-				DO.Fire('app:breakpointchangetomobile');
-			}
 		}
 	});
-
 });
 
 DO.Subscribe('ajax:success', function(e, $) {
