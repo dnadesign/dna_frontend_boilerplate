@@ -1,21 +1,21 @@
 # DNA Front-end boilerplate (Helix)
 
-At DNA we're well known for producing well crafted and tailored design solutions 
-and our development team has always done the same with the code they've 
-produced. However as HTML and CSS is notoriously subjective, settling on a 
-specific way of doing things has been hard. We have worked on an approach to 
-CSS before (OOCSS) however that effort was largely undermined by responsive. 
+At DNA we're well known for producing well crafted and tailored design solutions
+and our development team has always done the same with the code they've
+produced. However as HTML and CSS is notoriously subjective, settling on a
+specific way of doing things has been hard. We have worked on an approach to
+CSS before (OOCSS) however that effort was largely undermined by responsive.
 
-In the last two years the projects we've been working on have been getting 
-larger and larger and mostly responsive, which has put pressure on being able to 
-quickly scale a team and produce consistent results. 
+In the last two years the projects we've been working on have been getting
+larger and larger and mostly responsive, which has put pressure on being able to
+quickly scale a team and produce consistent results.
 
 Now we've turned to a combination of BEM and atomic design. We believe this
-enables developers to work together easily and produce consistent, professional, 
+enables developers to work together easily and produce consistent, professional,
 maintainable results for clients.
 
-This repository is not just a collection of our default styles and coding 
-conventions, it also includes a pattern lab of components to use and build 
+This repository is not just a collection of our default styles and coding
+conventions, it also includes a pattern lab of components to use and build
 scripts to automate the creation of projects.
 
 The goals of our front end pipeline are:
@@ -24,15 +24,15 @@ The goals of our front end pipeline are:
 	* Modular, component driven architecture.
 	* Use existing libraries (bower, bootstrap)
 	* Be predictable.
-	* Reusable between projects.  
+	* Reusable between projects.
 
 ## Installation
-	
+
 	// clone the module to somewhere on your machine
 	git clone git@github.com:dnadesign/dna_frontend_boilerplate.git ~/dna-frontend-boilerplate
 
 	// create a symlink in your $PATH to helix
-	sudo ln -s /usr/local/bin/helx ~/dna-frontend-boilerplate/bin/helix
+	sudo ln -s ~/dna-frontend-boilerplate/bin/helix /usr/local/bin/helix
 
 ## Usage
 
@@ -43,7 +43,7 @@ existing folder and run the following:
 
 This operation will create the default structure and outline we'll use.
 
-At any time in the future if you want to update to the latest front end boiler 
+At any time in the future if you want to update to the latest front end boiler
 plate run:
 
 	helix update
