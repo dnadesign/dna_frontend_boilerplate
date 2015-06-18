@@ -8,6 +8,7 @@
     "grunt-contrib-jshint": "~0.2.0",
     "grunt-imageoptim": "~1.2.6",
     "grunt-contrib-uglify": "~0.1.2",
-    "grunt-kss": "2.0.0"
+    "grunt-kss": "2.0.0",
+    "grunt-modernizr": "~0.6.0"
   }
 }
