@@ -1,12 +1,16 @@
 #!/usr/bin/env php
 <?php
 
-
-$op = (isset($_SERVER['argv'][1]));
+$op = true;
+if (isset($_SERVER['argv'][1])) {
+	$op = $_SERVER['argv'][1];
+}
 $pwd = $_SERVER['PWD'];
 $assets = dirname(dirname(realpath($_SERVER['argv'][0]))) .'/assets';
 
 $setupFiles = array(
+	'.bowerrc',
+	'bower.json',
 	'Gruntfile.js',
 	'package.json',
 	'Makefile'
@@ -14,24 +18,28 @@ $setupFiles = array(
 
 $setupFolders = array(
 	'build',
-	'dist'
+	'build',
+	'fonts',
+	'images'
 );
 
-$bower = array(
-	'jquery',
-	'bootstrap',
-	'radio'
+$sizes = array(
+	'base',
+	'small',
+	'medium',
+	'large'
 );
 
 switch($op) {
 	case 'setup':
 		foreach($setupFiles as $file) {
-			echo "Writing $file\n";
-
-			file_put_contents(
-				$pwd .'/'. $file,
-				file_get_contents($assets .'/'. $file)
-			);
+			if(!file_exists($pwd .'/'. $file)) {
+				echo "Writing $file\n";
+				file_put_contents(
+					$pwd .'/'. $file,
+					file_get_contents($assets .'/'. $file)
+				);
+			}
 		}
 
 		foreach($setupFolders as $folder) {
@@ -49,20 +57,28 @@ switch($op) {
 		exec("npm install -g bower &>/dev/null");
 
 		echo "\nSetting up bower\n";
+		exec("bower install");
 
-		foreach($bower as $dependancy) {
-			exec("bower install $dependancy");
-		}
+		echo "\nSetting up modernizr\n";
+		exec("grunt modernizr");
+
 	break;
 	case 'create':
 		if(isset($_SERVER['argv'][2])) {
 			$folder = $_SERVER['argv'][2];
-
+			if(!file_exists($pwd.'/build/components')) {
+				mkdir($pwd.'/build/components');
+			}
 			echo "Creating $folder";
-			$path = $pwd.'/build/'.$folder;
+			$path = $pwd.'/build/components/'.$folder;
 
 			if(!file_exists($path)) {
 				mkdir($path);
+				mkdir($path .'/css');
+				foreach($sizes as $size) {
+					touch($path . '/css/' . $folder . '.' . $size . '.less');
+				}
+				mkdir($path .'/js');
 			}
 		} else {
 			echo "Please provide a component name";
@@ -72,7 +88,7 @@ switch($op) {
 		if(isset($_SERVER['argv'][2])) {
 			$folder = $_SERVER['argv'][2];
 			echo "Removing $folder";
-			$path = $pwd.'/build/'.$folder;
+			$path = $pwd.'/build/components/'.$folder;
 
 			if(file_exists($path)) {
 				rmdir($path);
