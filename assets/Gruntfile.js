@@ -154,6 +154,47 @@ module.exports = function(grunt) {
 		dest: 'js/dist/site.src.js',
 		seperator: '\n'
 	};
+
+	modernizr['dist'] = {
+        "devFile" : "build/global/js/vendor/modernizr/modernizr.js",
+        "outputFile" : "build/global/js/vendor/modernizr/modernizr.custom.dist.js",
+        "extra" : {
+            "shiv" : true,
+            "printshiv" : true,
+            "load" : true,
+            "mq" : true,
+            "cssclasses" : true
+        },
+        "extensibility" : {
+            "addtest" : true,
+            "prefixed" : false,
+            "teststyles" : true,
+            "testprops" : true,
+            "testallprops" : true,
+            "hasevents" : false,
+            "prefixes" : true,
+            "domprefixes" : true,
+            "cssclassprefix": ""
+        },
+        "uglify" : true,
+        "tests" : [
+        	"fontface",
+        	"multiplebgs",
+        	"opacity",
+        	"rgba",
+        	"cssanimations",
+        	"generatedcontent",
+        	"cssgradients",
+        	"csstransforms",
+        	"csstransitions",
+        	"input",
+        	"inputtypes",
+        	"touch"
+        ],
+        "parseFiles" : false,
+        "matchCommunityTests" : false
+	};
+
 	//additional watch print, and watch js
 	watch['css_print'] = {
 		files: [
