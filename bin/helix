@@ -29,14 +29,14 @@ switch($op) {
 			echo "Writing $file\n";
 
 			file_put_contents(
-				$pwd .'/'. $file, 
+				$pwd .'/'. $file,
 				file_get_contents($assets .'/'. $file)
 			);
 		}
 
 		foreach($setupFolders as $folder) {
 			echo "Creating $folder/\n";
-			
+
 			if(!file_exists($pwd.'/'.$folder)) {
 				mkdir($pwd.'/'. $folder);
 			}
@@ -46,7 +46,7 @@ switch($op) {
 		exec("npm install --silent");
 
 		echo "\nInstalling bower\n";
-		exec("npm install bower &>/dev/null");
+		exec("npm install -g bower &>/dev/null");
 
 		echo "\nSetting up bower\n";
 
