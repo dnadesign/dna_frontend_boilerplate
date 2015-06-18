@@ -136,20 +136,33 @@ module.exports = function(grunt) {
 		dest: 'css/dist/production_dumb.min.css',
 		seperator: '\n'
 	};
-	concat['js'] = {
+	concat['js_vendor'] = {
 		src: [
 			// modernizr at the top of the page so not included here
-			'build/global/js/vendor/jquery-1.9.1.min.js',
-			'build/global/js/vendor/jquery-migrate-1.1.1.min.js',
-			'build/global/js/vendor/ios-orientationchange-fix.src.js',
-			'build/global/js/vendor/response.src.js',
-			'build/global/js/vendor/highcharts.js',
-			'build/global/js/do.src.js',
+			'build/global/js/vendor/jquery/dist/jquery.min.js',
+			'build/global/js/vendor/jquery-migrate/index.js',
+			'build/global/js/vendor/radio/radio.min.js',
+			'build/global/js/vendor/response/response.min.js',
+		],
+		dest: 'js/build/site_vendor.src.js',
+		seperator: '\n'
+	};
+	concat['js_app'] = {
+		src: [
 			'build/global/js/browser_detection.src.js',
 			'build/global/js/responseTrigger.src.js',
 			'build/components/**/js/vendor/*.js',
 			'build/components/**/js/*.js',
 			'build/global/js/start.src.js',
+		],
+		dest: 'js/build/site_app.src.js',
+		seperator: '\n'
+	};
+	concat['js'] = {
+		src: [
+			// modernizr at the top of the page so not included here
+			'js/build/site_vendor.src.js',
+			'js/build/site_app.src.js',
 		],
 		dest: 'js/dist/site.src.js',
 		seperator: '\n'
@@ -206,12 +219,28 @@ module.exports = function(grunt) {
 			'concat:css_production_dumb'
 		]
 	};
-	watch['js'] = {
+
+	watch['js_vendor'] = {
 		files: [
-			'build/global/js/vendor/*.js',
+			'build/global/js/vendor/**/*.js',
+		],
+		tasks: [
+			'concat:js_vendor'
+		]
+	};
+	watch['js_app'] = {
+		files: [
 			'build/global/js/*.js',
 			'build/components/**/js/vendor/*.js',
 			'build/components/**/js/*.js',
+		],
+		tasks: [
+			'concat:js_app'
+		]
+	};
+	watch['js'] = {
+		files: [
+			'js/build/*.js',
 		],
 		tasks: [
 			'concat:js'
