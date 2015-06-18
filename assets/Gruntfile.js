@@ -170,7 +170,7 @@ module.exports = function(grunt) {
 
 	modernizr['dist'] = {
         "devFile" : "build/global/js/vendor/modernizr/modernizr.js",
-        "outputFile" : "build/global/js/vendor/modernizr/modernizr.custom.dist.js",
+        "outputFile" : "build/global/js/vendor/modernizr/modernizr.custom.min.js",
         "extra" : {
             "shiv" : true,
             "printshiv" : true,
