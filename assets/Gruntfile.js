@@ -52,12 +52,12 @@ module.exports = function(grunt) {
 		};
 		concat["css_"+size] = {
 			src: [
-				global_css_dir+'/helpers/queries.'+size+'.css',
+				global_css_dir+'/media_queries/queries.'+size+'.css',
 				'css/build/'+size+'.min.css',
-				global_css_dir+'/helpers/queries.close.css',
-				global_css_dir+'/helpers/queries.'+size+'.retina.css',
+				global_css_dir+'/media_queries/queries.close.css',
+				global_css_dir+'/media_queries/queries.'+size+'.retina.css',
 				'css/build/'+size+'.retina.min.css',
-				global_css_dir+'/helpers/queries.close2.css'
+				global_css_dir+'/media_queries/queries.close2.css'
 			],
 			dest: 'css/dist/'+size+'.min.css',
 			seperator: '\n'
@@ -76,7 +76,7 @@ module.exports = function(grunt) {
 				components_css_dir+'/*.'+size+'.less',
 				components_css_dir+'/*.'+size+'.retina.less',
 				global_css_dir+'/mixins/*.css',
-				global_css_dir+'/helpers/*.css'
+				global_css_dir+'/media_queries/*.css'
 			],
 			tasks: [
 				'less:'+size,
