@@ -7,10 +7,12 @@ if (isset($_SERVER['argv'][1])) {
 }
 
 $pwd = $_SERVER['PWD'];
-$assets = dirname(dirname(realpath($_SERVER['argv'][0]))) .'/assets';
+$swd = dirname(dirname(realpath($_SERVER['argv'][0])));
+$assets = $swd .'/assets';
+
+require_once $swd . '/lib/Colors.php';
 
 $setupFiles = array(
-	'.bowerrc',
 	'bower.json',
 	'Gruntfile.js',
 	'package.json',
@@ -19,7 +21,9 @@ $setupFiles = array(
 
 $setupFolders = array(
 	'build',
-	'images'
+	'build/components',
+	'images',
+	'images/svg',
 	'dist'
 );
 
@@ -30,9 +34,39 @@ $bower = array(
 	'modernizer'
 );
 
+function success($short, $desc) {
+	$colors = new Colors();
+
+	echo $colors->getColoredString($short, "black", "green");
+	echo " ".$desc;
+	echo "\n";
+}
+
+function failure($short, $desc) {
+	$colors = new Colors();
+	
+	echo $colors->getColoredString($short, "white", "red");
+	echo " ".$desc;
+	echo "\n";
+}
+
+function warn($short, $desc) {
+	$colors = new Colors();
+	
+	echo $colors->getColoredString($short, "black", "yellow");
+	echo " ". $desc;
+	echo "\n";
+}
+
+function message($msg) {
+	echo $msg;
+	echo "\n";
+}
+
 function recurse_copy($src,$dst) { 
     $dir = opendir($src); 
-    @mkdir($dst); 
+    @mkdir($dst);
+
     while(false !== ( $file = readdir($dir)) ) { 
         if (( $file != '.' ) && ( $file != '..' )) { 
             if ( is_dir($src . '/' . $file) ) { 
@@ -46,15 +80,39 @@ function recurse_copy($src,$dst) {
     closedir($dir); 
 } 
 
-function installComponent($name) {
-	
+function installComponent($pwd, $swd, $name) {
+	if(file_exists($pwd .'/build/components/'. $name)) {
+		failure('EROR', $name . ' is already installed. Please remove first.');
+
+		exit;
+	}
+
+	$path = $swd .'/components/' . $name;
+
+	if(file_exists($path)) {
+		recurse_copy($path, $pwd .'/build/components/'. $name);
+
+		success('DONE', $name . ' installed');
+	} else {
+		warn('MISS', $name . ' cannot be found.');
+		message('Updating helix..');
+
+		updateHelix($pwd, $swd);
+	}
+}
+
+function updateHelix($pwd, $swd) {
+	success('UPD', "Updating $swd");
+
+	exec("cd $swd && git pull origin helix");
 }
 
 switch($op) {
 	case 'setup':
 		foreach($setupFiles as $file) {
 			if(!file_exists($pwd .'/'. $file)) {
-				echo "Writing $file\n";
+				message("Writing $file");
+
 				file_put_contents(
 					$pwd .'/'. $file,
 					file_get_contents($assets .'/'. $file)
@@ -63,56 +121,65 @@ switch($op) {
 		}
 
 		foreach($setupFolders as $folder) {
-			echo "Creating $folder/\n";
+			success("NEW", "Creating $pwd/$folder");
 
 			if(!file_exists($pwd.'/'.$folder)) {
 				mkdir($pwd.'/'. $folder);
 			}
 		}
 
-		echo "\nSetting up NPM\n";
+		message("Setting up NPM");
 		exec("npm install --silent");
 
-		echo "\nInstalling bower\n";
-		exec("npm install -g bower &>/dev/null");
+		message("Installing bower");
+		exec("npm install bower -g");
 
-		echo "\nSetting up bower\n";
+		message("Setting up bower");
 		exec("bower install");
 
-		echo "\nSetting up modernizr\n";
+		message("Setting up modernizr");
 		exec("grunt modernizr");
 
-		echo "\nInstalling "
+		message("Installing bower dependancies");
 
 		foreach($bower as $dependancy) {
+			message(" - $dependancy");
+
 			exec("bower install $dependancy");
 		}
 
-		echo "\nImporting global\n";
-		installComponent('forms');
-		installComponent('type');
-		installComponent('layout');
+		message("Importing global");
+		installComponent($pwd, $swd, 'forms');
+		installComponent($pwd, $swd, 'type');
+		installComponent($pwd, $swd, 'layout');
 	break;
 	case 'create':
 		if(isset($_SERVER['argv'][2])) {
 			$folder = $_SERVER['argv'][2];
+
 			if(!file_exists($pwd.'/build/components')) {
 				mkdir($pwd.'/build/components');
 			}
-			echo "Creating $folder";
+			
+			success("NEW", "Creating $pwd/build/components/$folder");
 			$path = $pwd.'/build/components/'.$folder;
 
 			if(!file_exists($path)) {
 				mkdir($path);
 			}
+
+			touch($pwd.'/build/components/'.$folder.'/'.$folder.'.less');
+			success("NEW", "Creating $pwd/build/components/$folder/$folder.less");
 		} else {
-			echo "Please provide a component name";
+			failure("EROR", "Please provide a component name");
+
+			exit();
 		}
 	break;
 	case 'remove':
 		if(isset($_SERVER['argv'][2])) {
 			$folder = $_SERVER['argv'][2];
-			echo "Removing $folder";
+			message("Removing $folder");
 			$path = $pwd.'/build/components/'.$folder;
 
 			if(file_exists($path)) {
@@ -120,9 +187,39 @@ switch($op) {
 			}
 
 		} else {
-			echo "Please provide a component name";
+			failure("EROR", "Please provide a component name");
+
+			exit();
 		}
 	break;
-	default:
-		echo "helix [setup|create|install|remove]";
+	case 'update':
+		updateHelix($pwd, $swd);
+	break;
+	case 'list':
+		// Ingore these files
+		$ignore = array(".","..");
+
+		if ($handle = opendir($swd .'/components/')) {
+			while (false !== ($file = readdir($handle))) {
+				if(!in_array($file, $ignore)) {	
+					if(file_exists($pwd .'/build/components/'. $file)) {
+						// check version 
+						$installed = md5_file("$pwd/build/components/$file");
+						$available = md5_file("$swd/components/$file");
+
+						if($installed == $available) {
+							success('INSTALLED', $file);
+						} else {
+							warn('CHANGED', $file);
+						}
+					} else {
+						message('* '. $file);
+					}
+				}
+			}
+		}
+	break;
+	default: 
+		message("helix [setup|create|install|remove|update|list]");
+	break;
 }
