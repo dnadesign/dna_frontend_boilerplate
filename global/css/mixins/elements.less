@@ -1,16 +1,3 @@
-/*---------------------------------------------------
-		LESS Elements 0.6
-	---------------------------------------------------
-		A set of useful LESS mixins by Dmitry Fadeyev
-		Special thanks for mixin suggestions to:
-			Kris Van Herzeele,
-			Benoit Adam,
-			Portenart Emile-Victor,
-			Ryan Faerman
-
-		More info at: http://lesselements.com
------------------------------------------------------*/
-
 .box-sizing (@type: border-box) {
 	-webkit-box-sizing: @type;
 	-moz-box-sizing:    @type;
@@ -32,23 +19,27 @@
 																	rgb(@start,@start,@start) 0%,
 																	rgb(@stop,@stop,@stop) 100%);
 }
+
 .bordered(@top-color: #EEE, @right-color: #EEE, @bottom-color: #EEE, @left-color: #EEE) {
 	border-top: solid 1px @top-color;
 	border-left: solid 1px @left-color;
 	border-right: solid 1px @right-color;
 	border-bottom: solid 1px @bottom-color;
 }
+
 .drop-shadow(@x-axis: 0, @y-axis: 1px, @blur: 2px, @color) {
 	-webkit-box-shadow: @x-axis @y-axis @blur @color;
 	-moz-box-shadow: @x-axis @y-axis @blur @color;
 	box-shadow: @x-axis @y-axis @blur @color;
 }
+
 .rounded(@radius: 2px) {
 	-webkit-border-radius: @radius;
 	-moz-border-radius: @radius;
 	border-radius: @radius;
 	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
 }
+
 .border-radius(@topright: 0, @bottomright: 0, @bottomleft: 0, @topleft: 0) {
 	-webkit-border-top-right-radius: @topright;
 	-webkit-border-bottom-right-radius: @bottomright;
@@ -64,57 +55,68 @@
 	border-top-left-radius: @topleft;
 	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
 }
+
 .opacity(@opacity: 0.5) {
 	-moz-opacity: @opacity;
 	-khtml-opacity: @opacity;
 	-webkit-opacity: @opacity;
 	opacity: @opacity;
 }
+
 .transition-duration(@duration: 0.2s) {
 	-moz-transition-duration: @duration;
 	-webkit-transition-duration: @duration;
 	transition-duration: @duration;
 }
+
 .rotation(@deg:5deg){
 	-webkit-transform: rotate(@deg);
 	-moz-transform: rotate(@deg);
 	transform: rotate(@deg);
 }
+
 .scale(@ratio:1.5){
 	-webkit-transform:scale(@ratio);
 	-moz-transform:scale(@ratio);
 	transform:scale(@ratio);
 }
+
 .transition(@duration:0.2s, @ease:ease-out) {
 	-webkit-transition: all @duration @ease;
 	-moz-transition: all @duration @ease;
 	transition: all @duration @ease;
 }
+
 .transition-none() {
 	-moz-transition: none;
 	-webkit-transition: none;
 	transition: none;
 }
+
 .transition-property(@property:all, @duration:0.2s, @ease:ease-out) {
 	-webkit-transition: @property @duration @ease;
 	-moz-transition: @property @duration @ease;
 	transition: @property @duration @ease;
 }
+
 .transition-property-none(@property) {
 	-moz-transition: @property none;
 	-webkit-transition: @property none;
 	transition: @property none;
 }
+
 .inner-shadow(@horizontal:0, @vertical:1px, @blur:2px, @alpha: 0.4) {
 	-webkit-box-shadow: inset @horizontal @vertical @blur rgba(0, 0, 0, @alpha);
 	-moz-box-shadow: inset @horizontal @vertical @blur rgba(0, 0, 0, @alpha);
 	box-shadow: inset @horizontal @vertical @blur rgba(0, 0, 0, @alpha);
 }
+
 .box-shadow(@arguments) {
 	-webkit-box-shadow: @arguments;
 	-moz-box-shadow: @arguments;
 	box-shadow: @arguments;
 }
+
 .columns(@colwidth: 250px, @colcount: 0, @colgap: 50px, @columnRuleColor: #EEE, @columnRuleStyle: solid, @columnRuleWidth: 1px) {
 	-moz-column-width: @colwidth;
 	-moz-column-count: @colcount;
@@ -135,6 +137,7 @@
 	column-rule-style: @columnRuleStyle;
 	column-rule-width: @columnRuleWidth;
 }
+
 .translate(@x:0, @y:0) {
 	-moz-transform: translate(@x, @y);
 	-webkit-transform: translate(@x, @y);
@@ -211,6 +214,7 @@
 	background-image: linear-gradient(135deg, @color1 @pos1, @color2 @pos2);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=@color1, endColorstr=@color2,GradientType=1 );
 }
+
 .diagonal-gradient (@color1, @color2,@color3) {
 	background: @color3;
 	background-image: -moz-linear-gradient(-45deg, @color1 0%, @color2 100%);
@@ -219,6 +223,7 @@
 	background-image: linear-gradient(135deg, @color1 0%,@color2 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=@color1, endColorstr=@color2,GradientType=1 );
 }
+
 .radial-gradient (@color1, @color2) {
 	background: @color1;
 	background-image: -moz-radial-gradient(center, @color1 0%, @color2 100%);
@@ -227,6 +232,7 @@
 	background-image: radial-gradient(at center, @color1 0%,@color2 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=@color1, endColorstr=@color2,GradientType=1 );
 }
+
 .radial-gradient (@color1, @color2,@color3) {
 	background: @color3;
 	background-image: -moz-radial-gradient(center, @color1 0%, @color2 100%);
@@ -242,6 +248,7 @@
 	-o-animation: @arguments;
 	animation: @arguments;
 }
+
 .animate (...) {.animation(@arguments);}
 .anime (...) {.animation(@arguments);}
 
