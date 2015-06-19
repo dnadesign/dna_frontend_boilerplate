@@ -56,4 +56,4 @@ components contain the CSS, Javascript and documentation to run and should, to
 some extent, be encapsulated from the rest of the site so they can be reused.
 
 A collection of components is provided by helix. To list all the components
-available in helix use `helix list`
+available in helix use `helix list`.

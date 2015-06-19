@@ -19,9 +19,36 @@ $setupFiles = array(
 
 $setupFolders = array(
 	'build',
-	'fonts',
 	'images'
+	'dist'
 );
+
+$bower = array(
+	'jquery',
+	'bootstrap',
+	'radio',
+	'modernizer'
+);
+
+function recurse_copy($src,$dst) { 
+    $dir = opendir($src); 
+    @mkdir($dst); 
+    while(false !== ( $file = readdir($dir)) ) { 
+        if (( $file != '.' ) && ( $file != '..' )) { 
+            if ( is_dir($src . '/' . $file) ) { 
+                recurse_copy($src . '/' . $file,$dst . '/' . $file); 
+            } 
+            else { 
+                copy($src . '/' . $file,$dst . '/' . $file); 
+            } 
+        } 
+    } 
+    closedir($dir); 
+} 
+
+function installComponent($name) {
+	
+}
 
 switch($op) {
 	case 'setup':
@@ -57,6 +84,14 @@ switch($op) {
 
 		echo "\nInstalling "
 
+		foreach($bower as $dependancy) {
+			exec("bower install $dependancy");
+		}
+
+		echo "\nImporting global\n";
+		installComponent('forms');
+		installComponent('type');
+		installComponent('layout');
 	break;
 	case 'create':
 		if(isset($_SERVER['argv'][2])) {
