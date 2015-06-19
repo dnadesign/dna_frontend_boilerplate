@@ -5,6 +5,7 @@ $op = true;
 if (isset($_SERVER['argv'][1])) {
 	$op = $_SERVER['argv'][1];
 }
+
 $pwd = $_SERVER['PWD'];
 $assets = dirname(dirname(realpath($_SERVER['argv'][0]))) .'/assets';
 
@@ -18,16 +19,8 @@ $setupFiles = array(
 
 $setupFolders = array(
 	'build',
-	'build',
 	'fonts',
 	'images'
-);
-
-$sizes = array(
-	'base',
-	'small',
-	'medium',
-	'large'
 );
 
 switch($op) {
@@ -62,6 +55,8 @@ switch($op) {
 		echo "\nSetting up modernizr\n";
 		exec("grunt modernizr");
 
+		echo "\nInstalling "
+
 	break;
 	case 'create':
 		if(isset($_SERVER['argv'][2])) {
@@ -74,11 +69,6 @@ switch($op) {
 
 			if(!file_exists($path)) {
 				mkdir($path);
-				mkdir($path .'/css');
-				foreach($sizes as $size) {
-					touch($path . '/css/' . $folder . '.' . $size . '.less');
-				}
-				mkdir($path .'/js');
 			}
 		} else {
 			echo "Please provide a component name";
