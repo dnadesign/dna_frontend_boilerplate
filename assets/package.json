@@ -1,6 +1,7 @@
 {
   "devDependencies": {
-    "grunt": "~0.4.5",
+    "walk": "2.3.9",
+    "grunt": "~0.4.5", 
     "grunt-contrib-less": "~0.5.0",
     "grunt-contrib-csslint": "~0.4.0",
     "grunt-css": "~0.5.4",

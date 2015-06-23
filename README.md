@@ -55,5 +55,21 @@ components. Components are located inside the `build/components/` folder. These
 components contain the CSS, Javascript and documentation to run and should, to
 some extent, be encapsulated from the rest of the site so they can be reused.
 
-A collection of components is provided by helix. To list all the components
-available in helix use `helix list`.
+## Components
+
+Helix is part pattern lab. It includes a number of components and styles out of
+the box. The idea being you can compose and reuse components across projects as
+a first level citizen.
+
+To list all the components available in helix use `helix list`. This list is 
+from the local checkout of the helix binary. To ensure you're got the latest
+list of components use `helix update` to update your binary.
+
+## Creating Components
+
+Components can be created via `helix create <component>`
+
+## Deleting Components
+
+Components can be deleted via `helix delete <component>`
+

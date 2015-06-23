@@ -1,3 +1,5 @@
+@grid-gutter-width: 40px;
+
 .show-grid {
   [class^="col-"] {
     background-color: #eee;
@@ -56,43 +58,3 @@
 
 
 .grid()
-
-
-// Small grid
-//
-// Columns, offsets, pushes, and pulls for the small device range, from phones
-// to tablets.
-
-@media (min-width: 480px) {
-  .make-grid-columns-float(sm);
-  .make-grid(@grid-columns, sm, width);
-  .make-grid(@grid-columns, sm, pull);
-  .make-grid(@grid-columns, sm, push);
-  .make-grid(@grid-columns, sm, offset);
-}
-
-
-// Medium grid
-//
-// Columns, offsets, pushes, and pulls for the desktop device range.
-
-@media (min-width: 720px) {
-  .make-grid-columns-float(md);
-  .make-grid(@grid-columns, md, width);
-  .make-grid(@grid-columns, md, pull);
-  .make-grid(@grid-columns, md, push);
-  .make-grid(@grid-columns, md, offset);
-}
-
-
-// Large grid
-//
-// Columns, offsets, pushes, and pulls for the large desktop device range.
-
-@media (min-width: @screen-lg-min) {
-  .make-grid-columns-float(lg);
-  .make-grid(@grid-columns, lg, width);
-  .make-grid(@grid-columns, lg, pull);
-  .make-grid(@grid-columns, lg, push);
-  .make-grid(@grid-columns, lg, offset);
-}
