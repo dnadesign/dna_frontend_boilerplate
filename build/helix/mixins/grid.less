@@ -4,7 +4,7 @@
 // Used only by Bootstrap to generate the correct number of grid classes given
 // any value of `@grid-columns`.
 
-.make-grid-columns(@grid-columns) {
+.make-grid-columns() {
   // Common styles for all sizes of grid columns, widths 1-12
   .col(@index) when (@index = 1) { // initial
     @item: ~".col-xs-@{index}, .col-sm-@{index}, .col-md-@{index}, .col-lg-@{index}";
@@ -27,7 +27,7 @@
   .col(1); // kickstart it
 }
 
-.make-grid-columns-float(@grid-columns, @class) {
+.make-grid-columns-float(@class) {
   .col(@index) when (@index = 1) { // initial
     @item: ~".col-@{class}-@{index}";
     .col((@index + 1), @item);
@@ -44,38 +44,80 @@
   .col(1); // kickstart it
 }
 
-.calc-grid(@index, @class, @type, @grid-columns) when (@type = width) and (@index > 0) {
+.calc-grid(@index, @class, @type) when (@type = width) and (@index > 0) {
   .col-@{class}-@{index} {
     width: percentage((@index / @grid-columns));
   }
 }
-.calc-grid(@index, @class, @type, @grid-columns) when (@type = push) {
+.calc-grid(@index, @class, @type) when (@type = push) {
   .col-@{class}-push-@{index} {
     left: percentage((@index / @grid-columns));
   }
 }
-.calc-grid(@index, @class, @type, @grid-columns) when (@type = pull) {
+.calc-grid(@index, @class, @type) when (@type = pull) {
   .col-@{class}-pull-@{index} {
     right: percentage((@index / @grid-columns));
   }
 }
-.calc-grid(@index, @class, @type, @grid-columns) when (@type = offset) {
+.calc-grid(@index, @class, @type) when (@type = offset) {
   .col-@{class}-offset-@{index} {
     margin-left: percentage((@index / @grid-columns));
   }
 }
 
 // Basic looping in LESS
-.make-grid(@index, @class, @type, @grid-columns) when (@index >= 0) {
-  .calc-grid(@index, @class, @type, @grid-columns);
+.make-grid(@index, @class, @type) when (@index >= 0) {
+  .calc-grid(@index, @class, @type);
   // next iteration
-  .make-grid((@index - 1), @class, @type, @grid-columns);
+  .make-grid((@index - 1), @class, @type);
 }
 
-.grid(@grid-columns, @size) {
-  .make-grid-columns-float(@grid-columns, @size);
-  .make-grid(@grid-columns, xs, width);
-  .make-grid(@grid-columns, xs, pull);
-  .make-grid(@grid-columns, xs, push);
-  .make-grid(@grid-columns, xs, offset);
+@grid-gutter-width: 40px;
+
+.show-grid {
+  [class^="col-"] {
+    background-color: #eee;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    border: 1px solid #ddd;
+    background-color: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(86,61,124,.2);
+    .box-shadow(inset 0 2px 6px rgba(0, 0, 0, 0.05));
+  }
 }
+
+// Creates a wrapper for a series of columns
+.make-row(@gutter: @grid-gutter-width) {
+  margin-left:  (@gutter / -2);
+  margin-right: (@gutter / -2);
+
+  .clearfix();
+}
+
+// Fluid container
+//
+// Utilizes the mixin meant for fixed width containers, but without any defined
+// width for fluid, full width layouts.
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left:  (@grid-gutter-width / 2);
+  padding-right: (@grid-gutter-width / 2);
+}
+
+
+// Row
+//
+// Rows contain and clear the floats of your columns.
+
+.row {
+  .make-row();
+}
+
+
+// Columns
+//
+// Common styles for small and large grid columns
+
+.make-grid-columns();

@@ -1,18 +1,30 @@
 #!/usr/bin/env php
 <?php
 
-$op = true;
+/**
+ * helix (1)
+ *
+ * This is the command line runner for managing helix project. It allows the 
+ * user to sync components, create packages and build new projects.
+ *
+ * For best use, this should be symlinked to your /usr/local/bin
+ */
+
+$op = null;
+$updated = false;
+
 if (isset($_SERVER['argv'][1])) {
 	$op = $_SERVER['argv'][1];
 }
 
 $pwd = $_SERVER['PWD'];
 $swd = dirname(dirname(realpath($_SERVER['argv'][0])));
-$assets = $swd .'/assets';
+$assets = $swd .'/build/helix/assets';
 
-require_once $swd . '/lib/Colors.php';
+require_once $swd . '/bin/lib/Colors.php';
 
 $setupFiles = array(
+	'.bowerrc',
 	'bower.json',
 	'Gruntfile.js',
 	'package.json',
@@ -65,19 +77,23 @@ function message($msg) {
 
 function recurse_copy($src,$dst) { 
     $dir = opendir($src); 
+
     @mkdir($dst);
 
-    while(false !== ( $file = readdir($dir)) ) { 
-        if (( $file != '.' ) && ( $file != '..' )) { 
-            if ( is_dir($src . '/' . $file) ) { 
-                recurse_copy($src . '/' . $file,$dst . '/' . $file); 
-            } 
-            else { 
-                copy($src . '/' . $file,$dst . '/' . $file); 
-            } 
-        } 
-    } 
-    closedir($dir); 
+    if($dir) {
+    	while(false !== ($file = readdir($dir)) ) { 
+        	if (( $file != '.' ) && ( $file != '..' ) && $file != '.DS_Store') { 
+        	    if ( is_dir($src . '/' . $file) ) { 
+        	        recurse_copy($src . '/' . $file,$dst . '/' . $file); 
+        	    } 
+        	    else {
+        	        copy($src . '/' . $file,$dst . '/' . $file); 
+        	    } 
+        	} 
+    	} 
+
+    	closedir($dir); 
+    }
 } 
 
 function installComponent($pwd, $swd, $name) {
@@ -94,7 +110,7 @@ function installComponent($pwd, $swd, $name) {
 
 		success('DONE', $name . ' installed');
 	} else {
-		warn('MISS', $name . ' cannot be found.');
+		warn('WRN', $name . ' cannot be found.');
 		message('Updating helix..');
 
 		updateHelix($pwd, $swd);
@@ -107,16 +123,24 @@ function updateHelix($pwd, $swd) {
 	exec("cd $swd && git pull origin helix");
 }
 
+function updateInstalledHelix($pwd, $swd) {
+	recurse_copy($swd .'/build/helix', $pwd .'/build/helix/');
+}
+
 switch($op) {
 	case 'setup':
+		updateInstalledHelix($pwd, $swd);
+
 		foreach($setupFiles as $file) {
 			if(!file_exists($pwd .'/'. $file)) {
-				message("Writing $file");
+				success("NEW", "Writing $file");
 
 				file_put_contents(
 					$pwd .'/'. $file,
 					file_get_contents($assets .'/'. $file)
 				);
+			} else {
+				warn("WRN", "$file exists, not overriding");
 			}
 		}
 
@@ -151,7 +175,7 @@ switch($op) {
 		message("Importing global");
 		installComponent($pwd, $swd, 'forms');
 		installComponent($pwd, $swd, 'type');
-		installComponent($pwd, $swd, 'layout');
+		installComponent($pwd, $swd, 'grid');
 	break;
 	case 'create':
 		if(isset($_SERVER['argv'][2])) {
@@ -193,6 +217,7 @@ switch($op) {
 		}
 	break;
 	case 'update':
+		updateInstalledHelix($pwd, $swd);
 		updateHelix($pwd, $swd);
 	break;
 	case 'list':
@@ -220,6 +245,6 @@ switch($op) {
 		}
 	break;
 	default: 
-		message("helix [setup|create|install|remove|update|list]");
+		message("helix [setup (-f)|create|install|remove|update|list]");
 	break;
 }
