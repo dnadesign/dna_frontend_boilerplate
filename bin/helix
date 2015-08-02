@@ -99,11 +99,9 @@ function recurse_copy($src,$dst) {
 function installComponent($pwd, $swd, $name) {
 	if(file_exists($pwd .'/build/components/'. $name)) {
 		failure('EROR', $name . ' is already installed. Please remove first.');
-
-		exit;
 	}
 
-	$path = $swd .'/components/' . $name;
+	$path = $swd .'/build/components/' . $name;
 
 	if(file_exists($path)) {
 		recurse_copy($path, $pwd .'/build/components/'. $name);
@@ -176,6 +174,7 @@ switch($op) {
 		installComponent($pwd, $swd, 'forms');
 		installComponent($pwd, $swd, 'type');
 		installComponent($pwd, $swd, 'grid');
+		installComponent($pwd, $swd, 'reset');
 	break;
 	case 'create':
 		if(isset($_SERVER['argv'][2])) {
