@@ -38,14 +38,21 @@ DO.Subscribe(['app:ready'], function(e, $) {
 
 		// cancel event and record outbound link
 		e.preventDefault();
-		var href = link[0].href;
 
-		var category = href.toLowerCase().endsWith('.pdf') ? 'Download' : 'Outbound';
+		var href = link[0].href,
+			category,
+			action = 'Link';
+
+		if($(this).data('ga-category')) {
+			category = $(this).data('ga-category');
+		} else {
+			category = href.toLowerCase().endsWith('.pdf') ? 'Download' : 'Outbound';
+		}
 
 		var loadPage = function() {
 			document.location = href;
 		};
-		
+
 		ga('send', {
 			'hitType': 'event',
 			'eventCategory': category,
@@ -129,11 +136,25 @@ DO.Subscribe(['app:ready'], function(e, $) {
 				};
 
 				setTimeout(loadPage, 1000);
+			
+				var category, action;
+
+				if($(this).data('ga-category')) {
+					category = $(this).data('ga-category');
+				} else {
+					category = 'Button';
+				}
+
+				if($(this).data('ga-action')) {
+					action = $(this).data('ga-action');
+				} else {
+					action = 'click';
+				}
 
 				ga('send', {
 					'hitType': 'event',
-					'eventCategory': 'Button',
-					'eventAction': 'Click',
+					'eventCategory': category,
+					'eventAction': action,
 					'useBeacon': true,
 					'eventLabel': window.location.href + ': ' + button.attr('name'),
 					'hitCallback': loadPage
