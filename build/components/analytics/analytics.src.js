@@ -9,7 +9,7 @@ DO.Subscribe(['app:ready'], function(e, $) {
 	 * Standard outbound and external file count tracking component.
 	 *
 	 */
-	$("body").on("click", function() {
+	$("body").on("click", function(e) {
 		if (!String.prototype.endsWith) {
 			String.prototype.endsWith = function(searchString, position) {
 				var subjectString = this.toString();
