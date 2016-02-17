@@ -78,7 +78,7 @@ function message($msg) {
 function recurse_copy($src,$dst) { 
     $dir = opendir($src); 
 
-    @mkdir($dst);
+    @mkdir($dst, 0755, true);
 
     if($dir) {
     	while(false !== ($file = readdir($dir)) ) { 
@@ -122,6 +122,8 @@ function updateHelix($pwd, $swd) {
 }
 
 function updateInstalledHelix($pwd, $swd) {
+	success("NEW", "Updated build/helix/");
+
 	recurse_copy($swd .'/build/helix', $pwd .'/build/helix/');
 }
 
