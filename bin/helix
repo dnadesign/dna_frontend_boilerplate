@@ -5,10 +5,13 @@
  * helix (1)
  *
  * This is the command line runner for managing helix project. It allows the 
- * user to sync components, create packages and build new projects.
+ * user to create components and build new projects out of those components.
  *
  * For best use, this should be symlinked to your /usr/local/bin
+ *
+ * > sudo ln -s /usr/local/bin/helix ~/Scripts/helix/bin/helix
  */
+$IGNORED_LIST_FILES = array(".","..", ".DS_Store");
 
 $op = null;
 $updated = false;
@@ -19,7 +22,7 @@ if (isset($_SERVER['argv'][1])) {
 
 $pwd = $_SERVER['PWD'];
 $swd = dirname(dirname(realpath($_SERVER['argv'][0])));
-$assets = $swd .'/build/helix/assets';
+$assets = $swd .'/helix/assets';
 
 require_once $swd . '/bin/lib/Colors.php';
 
@@ -178,6 +181,7 @@ switch($op) {
 		installComponent($pwd, $swd, 'grid');
 		installComponent($pwd, $swd, 'reset');
 	break;
+
 	case 'create':
 		if(isset($_SERVER['argv'][2])) {
 			$folder = $_SERVER['argv'][2];
@@ -201,6 +205,7 @@ switch($op) {
 			exit();
 		}
 	break;
+
 	case 'remove':
 		if(isset($_SERVER['argv'][2])) {
 			$folder = $_SERVER['argv'][2];
@@ -217,13 +222,15 @@ switch($op) {
 			exit();
 		}
 	break;
+	
 	case 'update':
 		updateInstalledHelix($pwd, $swd);
 		updateHelix($pwd, $swd);
 	break;
+
 	case 'list':
 		// Ingore these files
-		$ignore = array(".","..");
+		$ignore = $IGNORED_LIST_FILES;
 
 		if ($handle = opendir($swd .'/components/')) {
 			while (false !== ($file = readdir($handle))) {
@@ -247,5 +254,11 @@ switch($op) {
 	break;
 	default: 
 		message("helix [setup (-f)|create|install|remove|update|list]");
+		message(" setup - setup a new helix project. Run in an existing folder (i.e cd ~/Site && helix setup)");
+		message(" create - create a new component layout in the current project");
+		message(" update - update helix components in the project");
+		message(" install - install a new component from the repository");
+		message(" list - list all the components");
+		message(" remove - remove an installed component");
 	break;
 }
