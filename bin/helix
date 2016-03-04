@@ -52,6 +52,8 @@ $bower = array(
 function installComponent($pwd, $swd, $name) {
 	if(file_exists($pwd .'/build/components/'. $name)) {
 		failure('EROR', $name . ' is already installed. Please remove first.');
+
+        return false;
 	}
 
 	$path = $swd .'/components/' . $name;
@@ -79,8 +81,6 @@ function updateInstalledHelix($pwd, $swd) {
 
 switch($op) {
 	case 'setup':
-		updateInstalledHelix($pwd, $swd);
-
 		foreach($setupFiles as $file) {
 			if(!file_exists($pwd .'/'. $file)) {
 				success("NEW", "Writing $file");
@@ -160,7 +160,7 @@ switch($op) {
             if($_SERVER['argv'][2] == "-all") {
                 if ($handle = opendir($swd .'/components/')) {
                     while (false !== ($file = readdir($handle))) {
-                        if(!in_array($file, $ignore)) {
+                        if(!in_array($file, $IGNORED_LIST_FILES)) {
                             installComponent($pwd, $swd, $file);
                         }
                     }
@@ -201,12 +201,9 @@ switch($op) {
 	break;
 
 	case 'list':
-		// Ingore these files
-		$ignore = $IGNORED_LIST_FILES;
-
 		if ($handle = opendir($swd .'/components/')) {
 			while (false !== ($file = readdir($handle))) {
-				if(!in_array($file, $ignore)) {
+				if(!in_array($file, $IGNORED_LIST_FILES)) {
 					if(file_exists($pwd .'/build/components/'. $file)) {
 						// check version
 						$installed = md5_file("$pwd/build/components/$file");
@@ -224,6 +221,18 @@ switch($op) {
 			}
 		}
 	break;
+
+    case 'watch':
+        success("RUN", "Installing NPM");
+        exec("cd $pwd && npm install");
+
+        success("RUN", "Installing bower");
+        exec("cd $pwd && bower install");
+
+        success("RUN", "Running grunt");
+        exec("cd $pwd && grunt watch");
+    break;
+
 	default:
 		message("helix [setup (-f)|create|install (-all)|remove|update|list]");
 		message(" setup - setup a new helix project. Run in an existing folder (i.e cd ~/Site && helix setup)");
@@ -232,5 +241,6 @@ switch($op) {
 		message(" install - install a new component from the repository");
 		message(" list - list all the components");
 		message(" remove - remove an installed component");
+        message(" watch - proxy for Grunt watch. Will also install depenancies");
 	break;
 }
