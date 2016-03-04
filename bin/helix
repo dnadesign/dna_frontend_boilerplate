@@ -24,7 +24,7 @@ $pwd = $_SERVER['PWD'];
 $swd = dirname(dirname(realpath($_SERVER['argv'][0])));
 $assets = $swd .'/helix/assets';
 
-require_once $swd . '/bin/lib/Colors.php';
+require_once $swd . '/bin/lib/Helpers.php';
 
 $setupFiles = array(
 	'.bowerrc',
@@ -49,85 +49,32 @@ $bower = array(
 	'modernizer'
 );
 
-function success($short, $desc) {
-	$colors = new Colors();
-
-	echo $colors->getColoredString($short, "black", "green");
-	echo " ".$desc;
-	echo "\n";
-}
-
-function failure($short, $desc) {
-	$colors = new Colors();
-	
-	echo $colors->getColoredString($short, "white", "red");
-	echo " ".$desc;
-	echo "\n";
-}
-
-function warn($short, $desc) {
-	$colors = new Colors();
-	
-	echo $colors->getColoredString($short, "black", "yellow");
-	echo " ". $desc;
-	echo "\n";
-}
-
-function message($msg) {
-	echo $msg;
-	echo "\n";
-}
-
-function recurse_copy($src,$dst) { 
-    $dir = opendir($src); 
-
-    @mkdir($dst, 0755, true);
-
-    if($dir) {
-    	while(false !== ($file = readdir($dir)) ) { 
-        	if (( $file != '.' ) && ( $file != '..' ) && $file != '.DS_Store') { 
-        	    if ( is_dir($src . '/' . $file) ) { 
-        	        recurse_copy($src . '/' . $file,$dst . '/' . $file); 
-        	    } 
-        	    else {
-        	        copy($src . '/' . $file,$dst . '/' . $file); 
-        	    } 
-        	} 
-    	} 
-
-    	closedir($dir); 
-    }
-} 
-
 function installComponent($pwd, $swd, $name) {
 	if(file_exists($pwd .'/build/components/'. $name)) {
 		failure('EROR', $name . ' is already installed. Please remove first.');
 	}
 
-	$path = $swd .'/build/components/' . $name;
+	$path = $swd .'/components/' . $name;
 
 	if(file_exists($path)) {
 		recurse_copy($path, $pwd .'/build/components/'. $name);
 
 		success('DONE', $name . ' installed');
 	} else {
-		warn('WRN', $name . ' cannot be found.');
-		message('Updating helix..');
-
-		updateHelix($pwd, $swd);
+		failure('ERROR', $name . ' cannot be found.');
 	}
 }
 
 function updateHelix($pwd, $swd) {
 	success('UPD', "Updating $swd");
 
-	exec("cd $swd && git pull origin helix");
+	exec("cd $swd && git pull origin master");
 }
 
 function updateInstalledHelix($pwd, $swd) {
 	success("NEW", "Updated build/helix/");
 
-	recurse_copy($swd .'/build/helix', $pwd .'/build/helix/');
+	recurse_copy($swd .'/helix', $pwd .'/build/helix/');
 }
 
 switch($op) {
@@ -206,6 +153,16 @@ switch($op) {
 		}
 	break;
 
+	case 'install': 
+		if(isset($_SERVER['argv'][2])) {
+			installComponent($pwd, $swd, $_SERVER['argv'][2]);
+		} else {
+			failure("EROR", "Please provide a component name");
+
+			exit();
+		}
+	break;
+
 	case 'remove':
 		if(isset($_SERVER['argv'][2])) {
 			$folder = $_SERVER['argv'][2];
@@ -213,7 +170,10 @@ switch($op) {
 			$path = $pwd.'/build/components/'.$folder;
 
 			if(file_exists($path)) {
-				rmdir($path);
+				rrm_dir($path);
+				success("NEW", "Removed ". $path);
+			} else {
+				failure("EROR", "Unknown component name");
 			}
 
 		} else {
