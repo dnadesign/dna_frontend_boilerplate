@@ -1,4 +1,5 @@
 {
+  "private": true,
   "devDependencies": {
     "grunt": "0.4.5",
     "grunt-contrib-concat": "~0.1.3",
