@@ -1,2 +1,8 @@
 .DS_Store
 /node_modules/
+/demo/Makefile
+/demo/package.json
+/demo/build
+/demo/Gruntfile
+/demo/images/
+/demo/dist/
