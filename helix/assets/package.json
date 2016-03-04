@@ -10,7 +10,6 @@
     "grunt-contrib-watch": "~0.3.1",
     "grunt-css": "~0.5.4",
     "grunt-imageoptim": "~1.2.6",
-    "grunt-kss": "2.0.0",
     "grunt-modernizr": "~0.6.0",
     "grunt-stripmq": "0.0.6",
     "underscore": "1.8.3"
