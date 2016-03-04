@@ -1,0 +1,22 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Populates the demo site. Assumes `helix` is already installed on the server
+ * or location where this site is generated.
+ */
+
+$op = null;
+
+if (isset($_SERVER['argv'][1])) {
+    $op = $_SERVER['argv'][1];
+}
+
+$swd = dirname(dirname(realpath($_SERVER['argv'][0])));
+
+
+include_once($swd .'/bin/lib/Helpers.php');
+
+success("RUN", 'Installing helix');
+exec("cd $swd && helix setup");
+exec("cd $swd && helix install --all");

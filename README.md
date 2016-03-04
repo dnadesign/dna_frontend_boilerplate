@@ -61,13 +61,26 @@ Helix is part pattern lab. It includes a number of components and styles out of
 the box. The idea being you can compose and reuse components across projects as
 a first level citizen.
 
-To list all the components available in helix use `helix list`. This list is 
+To list all the components available in helix use `helix list`. This list is
 from the local checkout of the helix binary. To ensure you're got the latest
 list of components use `helix update` to update your binary.
 
 ## Creating Components
 
-Components can be created via `helix create <component>`
+Components can be created via `helix create <component>` A component will be
+created in /build/components/component name and the project grunt file will
+automatically pick this up.
+
+Inside a component the following layout is supports
+
+    component/
+        component.less
+        component.x580.less
+        component.js
+        markup/
+            example.html
+
+Javascript and Less files can also be nested in folders if needed.
 
 ## Deleting Components
 

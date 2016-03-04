@@ -4,7 +4,7 @@
 /**
  * helix (1)
  *
- * This is the command line runner for managing helix project. It allows the 
+ * This is the command line runner for managing helix project. It allows the
  * user to create components and build new projects out of those components.
  *
  * For best use, this should be symlinked to your /usr/local/bin
@@ -136,7 +136,7 @@ switch($op) {
 			if(!file_exists($pwd.'/build/components')) {
 				mkdir($pwd.'/build/components');
 			}
-			
+
 			success("NEW", "Creating $pwd/build/components/$folder");
 			$path = $pwd.'/build/components/'.$folder;
 
@@ -146,6 +146,8 @@ switch($op) {
 
 			touch($pwd.'/build/components/'.$folder.'/'.$folder.'.less');
 			success("NEW", "Creating $pwd/build/components/$folder/$folder.less");
+
+            mkdir($pwd.'/build/components/'.$folder.'/markup/');
 		} else {
 			failure("EROR", "Please provide a component name");
 
@@ -153,9 +155,19 @@ switch($op) {
 		}
 	break;
 
-	case 'install': 
+	case 'install':
 		if(isset($_SERVER['argv'][2])) {
-			installComponent($pwd, $swd, $_SERVER['argv'][2]);
+            if($_SERVER['argv'][2] == "-all") {
+                if ($handle = opendir($swd .'/components/')) {
+                    while (false !== ($file = readdir($handle))) {
+                        if(!in_array($file, $ignore)) {
+                            installComponent($pwd, $swd, $file);
+                        }
+                    }
+                }
+            } else {
+                installComponent($pwd, $swd, $_SERVER['argv'][2]);
+            }
 		} else {
 			failure("EROR", "Please provide a component name");
 
@@ -182,7 +194,7 @@ switch($op) {
 			exit();
 		}
 	break;
-	
+
 	case 'update':
 		updateInstalledHelix($pwd, $swd);
 		updateHelix($pwd, $swd);
@@ -194,9 +206,9 @@ switch($op) {
 
 		if ($handle = opendir($swd .'/components/')) {
 			while (false !== ($file = readdir($handle))) {
-				if(!in_array($file, $ignore)) {	
+				if(!in_array($file, $ignore)) {
 					if(file_exists($pwd .'/build/components/'. $file)) {
-						// check version 
+						// check version
 						$installed = md5_file("$pwd/build/components/$file");
 						$available = md5_file("$swd/components/$file");
 
@@ -212,8 +224,8 @@ switch($op) {
 			}
 		}
 	break;
-	default: 
-		message("helix [setup (-f)|create|install|remove|update|list]");
+	default:
+		message("helix [setup (-f)|create|install (-all)|remove|update|list]");
 		message(" setup - setup a new helix project. Run in an existing folder (i.e cd ~/Site && helix setup)");
 		message(" create - create a new component layout in the current project");
 		message(" update - update helix components in the project");
