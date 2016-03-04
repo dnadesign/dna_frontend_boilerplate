@@ -12,11 +12,15 @@ if (isset($_SERVER['argv'][1])) {
     $op = $_SERVER['argv'][1];
 }
 
-$swd = dirname(dirname(realpath($_SERVER['argv'][0])));
+$swd = dirname(realpath($_SERVER['argv'][0]));
 
 
-include_once($swd .'/bin/lib/Helpers.php');
+include_once(dirname($swd) .'/bin/lib/Helpers.php');
 
 success("RUN", 'Installing helix');
+
 exec("cd $swd && helix setup");
+
+success("RUN", 'Installing all helix components');
 exec("cd $swd && helix install --all");
+exec("cd $swd && helix watch");
