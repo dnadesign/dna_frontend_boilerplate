@@ -19,8 +19,8 @@ include_once(dirname($swd) .'/bin/lib/Helpers.php');
 
 success("RUN", 'Installing helix');
 
-exec("cd $swd && helix setup");
+exec("cd $swd && helix setup -force");
 
 success("RUN", 'Installing all helix components');
-exec("cd $swd && helix install --all");
-exec("cd $swd && helix watch");
+exec("cd $swd && helix install -all");
+exec("cd $swd && grunt");

@@ -20,12 +20,17 @@ if (isset($_SERVER['argv'][1])) {
 	$op = $_SERVER['argv'][1];
 }
 
+// folder we want helix to operate in.
 $pwd = $_SERVER['PWD'];
+
+// path to the 'installed' helix folder
 $swd = dirname(dirname(realpath($_SERVER['argv'][0])));
+
 $assets = $swd .'/helix/assets';
 
 require_once $swd . '/bin/lib/Helpers.php';
 
+global $setupFiles;
 $setupFiles = array(
 	'.bowerrc',
 	'bower.json',
@@ -34,14 +39,17 @@ $setupFiles = array(
 	'Makefile'
 );
 
+global $setupFolders;
 $setupFolders = array(
 	'build',
 	'build/components',
+    'build/helix',
 	'images',
 	'images/svg',
 	'dist'
 );
 
+global $bower;
 $bower = array(
 	'jquery',
 	'bootstrap',
@@ -76,57 +84,72 @@ function updateHelix($pwd, $swd) {
 function updateInstalledHelix($pwd, $swd) {
 	success("NEW", "Updated build/helix/");
 
-	recurse_copy($swd .'/helix', $pwd .'/build/helix/');
+	recurse_copy($swd .'/helix/lib', $pwd .'/build/helix/lib');
+    recurse_copy($swd .'/helix/addons', $pwd .'/build/helix/addons');
+}
+
+function setup($pwd, $swd, $force) {
+    global $setupFiles, $setupFolders, $bower, $assets;
+
+    foreach($setupFiles as $file) {
+        if($force || !file_exists($pwd .'/'. $file)) {
+            success("NEW", "Writing $file");
+
+            file_put_contents(
+                $pwd .'/'. $file,
+                    file_get_contents($assets .'/'. $file)
+                );
+        } else {
+            warn("WRN", "$file exists, not overriding");
+        }
+    }
+
+    foreach($setupFolders as $folder) {
+        if(!file_exists($pwd.'/'.$folder)) {
+            success("NEW", "Creating $pwd/$folder");
+
+            mkdir($pwd.'/'. $folder);
+        } else {
+            success("WRN", "$pwd/$folder exists");
+        }
+    }
+
+    message("Setting up Grunt");
+    updateInstalledHelix($pwd, $swd);
+
+    message("Setting up NPM");
+    exec("npm install --silent");
+
+    message("Installing bower");
+    exec("npm install bower -g");
+
+    message("Setting up bower");
+    exec("bower install");
+
+    message("Setting up modernizr");
+    exec("grunt modernizr");
+
+    message("Installing bower dependancies");
+
+    foreach($bower as $dependancy) {
+        message(" - $dependancy");
+
+        exec("bower install $dependancy");
+    }
+
+    message("Importing global");
+    installComponent($pwd, $swd, 'mixins');
+    installComponent($pwd, $swd, 'forms');
+    installComponent($pwd, $swd, 'type');
+    installComponent($pwd, $swd, 'grid');
+    installComponent($pwd, $swd, 'reset');
 }
 
 switch($op) {
 	case 'setup':
-		foreach($setupFiles as $file) {
-			if(!file_exists($pwd .'/'. $file)) {
-				success("NEW", "Writing $file");
+        $force = (isset($_SERVER['argv'][2]) && $_SERVER['argv'][2] == '-force');
 
-				file_put_contents(
-					$pwd .'/'. $file,
-					file_get_contents($assets .'/'. $file)
-				);
-			} else {
-				warn("WRN", "$file exists, not overriding");
-			}
-		}
-
-		foreach($setupFolders as $folder) {
-			success("NEW", "Creating $pwd/$folder");
-
-			if(!file_exists($pwd.'/'.$folder)) {
-				mkdir($pwd.'/'. $folder);
-			}
-		}
-
-		message("Setting up NPM");
-		exec("npm install --silent");
-
-		message("Installing bower");
-		exec("npm install bower -g");
-
-		message("Setting up bower");
-		exec("bower install");
-
-		message("Setting up modernizr");
-		exec("grunt modernizr");
-
-		message("Installing bower dependancies");
-
-		foreach($bower as $dependancy) {
-			message(" - $dependancy");
-
-			exec("bower install $dependancy");
-		}
-
-		message("Importing global");
-		installComponent($pwd, $swd, 'forms');
-		installComponent($pwd, $swd, 'type');
-		installComponent($pwd, $swd, 'grid');
-		installComponent($pwd, $swd, 'reset');
+		setup($pwd, $swd, $force);
 	break;
 
 	case 'create':
@@ -196,8 +219,15 @@ switch($op) {
 	break;
 
 	case 'update':
+        if(isset($_SERVER['argv'][2]) && $_SERVER['argv'][2] != "-skipbin") {
+            updateHelix($pwd, $swd);
+        }
+
 		updateInstalledHelix($pwd, $swd);
-		updateHelix($pwd, $swd);
+
+        if((isset($_SERVER['argv'][2]) && $_SERVER['argv'][2] == "-updateall") || (isset($_SERVER['argv'][3]) && $_SERVER['argv'][3] == "-updateall")) {
+            setup($pwd, $swd, true);
+        }
 	break;
 
 	case 'list':
