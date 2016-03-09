@@ -12,7 +12,7 @@
   ],
   "dependencies": {
     "bootstrap": "~3.3.5",
-    "jquery": "~2.1.4",
+    "jquery": "*",
     "jquery-migrate": "http://code.jquery.com/jquery-migrate-1.2.1.min.js",
     "modernizr": "2.8.3",
     "radio": "~0.2.0",
