@@ -93,6 +93,7 @@ Components can be deleted via `helix delete <component>`
 ## Style Guide
 
 This project using `Knyle Style Sheets` and builds a living style guide through
-the grunt process. Each component can include documentation inside the less file.
+the grunt process. Each component can include documentation inside the less
+file, running grunt watch will generate the `styleguide` folder.
 
 

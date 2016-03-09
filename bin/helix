@@ -57,8 +57,8 @@ $bower = array(
 	'modernizer'
 );
 
-function installComponent($pwd, $swd, $name) {
-	if(file_exists($pwd .'/build/components/'. $name)) {
+function installComponent($pwd, $swd, $name, $force = false) {
+	if(!$force && file_exists($pwd .'/build/components/'. $name)) {
 		failure('EROR', $name . ' is already installed. Please remove first.');
 
         return false;
@@ -184,7 +184,7 @@ switch($op) {
                 if ($handle = opendir($swd .'/components/')) {
                     while (false !== ($file = readdir($handle))) {
                         if(!in_array($file, $IGNORED_LIST_FILES)) {
-                            installComponent($pwd, $swd, $file);
+                            installComponent($pwd, $swd, $file, true);
                         }
                     }
                 }
