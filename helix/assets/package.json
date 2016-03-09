@@ -13,6 +13,7 @@
     "grunt-imageoptim": "~1.2.6",
     "grunt-modernizr": "~0.6.0",
     "grunt-stripmq": "0.0.6",
+    "grunt-kss": "4.1.0",
     "underscore": "1.8.3"
   }
 }

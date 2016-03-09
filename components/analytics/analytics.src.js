@@ -3,198 +3,202 @@
  * and button clicks.
  *
  */
-DO.Subscribe(['app:ready'], function(e, $) {
+DO.Subscribe(['app:ready'], function (e, $) {
+  /**
+   * Standard outbound and external file count tracking component.
+   *
+   */
+  $('body').on('click', function (e) {
+    if (!String.prototype.endsWith) {
+      String.prototype.endsWith = function (searchString, position) {
+        var subjectString = this.toString()
 
-	/**
-	 * Standard outbound and external file count tracking component.
-	 *
-	 */
-	$("body").on("click", function(e) {
-		if (!String.prototype.endsWith) {
-			String.prototype.endsWith = function(searchString, position) {
-				var subjectString = this.toString();
+        if (position === undefined || position > subjectString.length) {
+          position = subjectString.length
+        }
 
-				if (position === undefined || position > subjectString.length) {
-					position = subjectString.length;
-				}
+        position -= searchString.length
+        var lastIndex = subjectString.indexOf(searchString, position)
+        return lastIndex !== -1 && lastIndex === position
+      }
+    }
 
-				position -= searchString.length;
-				var lastIndex = subjectString.indexOf(searchString, position);
-				return lastIndex !== -1 && lastIndex === position;
-			};
-		}
+    // abandon if link already aborted or analytics is not available
+    if (e.isDefaultPrevented() || typeof ga !== 'function') {
+      return
+    }
 
-		// abandon if link already aborted or analytics is not available
-		if (e.isDefaultPrevented() || typeof ga !== "function") {
-			return;
-		}
+    // abandon if no active link or link within domain
+    var link = $(e.target).closest('a')
 
-		// abandon if no active link or link within domain
-		var link = $(e.target).closest("a");
+    if (link.length != 1 || (baseURI == link[0].host && !link[0].href.toLowerCase().endsWith('.pdf'))) {
+      return
+    }
 
-		if (link.length != 1 || (baseURI == link[0].host && !link[0].href.toLowerCase().endsWith('.pdf'))) {
-			return;
-		}
+    // cancel event and record outbound link
+    e.preventDefault()
 
-		// cancel event and record outbound link
-		e.preventDefault();
+    var href = link[0].href,
+      category,
+      action = 'Link'
 
-		var href = link[0].href,
-			category,
-			action = 'Link';
+    if ($(this).data('ga-category')) {
+      category = $(this).data('ga-category')
+    } else {
+      category = href.toLowerCase().endsWith('.pdf') ? 'Download' : 'Outbound'
+    }
 
-		if($(this).data('ga-category')) {
-			category = $(this).data('ga-category');
-		} else {
-			category = href.toLowerCase().endsWith('.pdf') ? 'Download' : 'Outbound';
-		}
+    var loadPage = function () {
+      document.location = href
+    }
 
-		var loadPage = function() {
-			document.location = href;
-		};
+    var action
 
-		ga('send', {
-			'hitType': 'event',
-			'eventCategory': category,
-			'eventAction': 'Link',
-			'eventLabel': href,
-			'hitCallback': loadPage
-		});
+    if ($(this).data('ga-action')) {
+      action = $(this).data('ga-action')
+    } else {
+      action = 'Link'
+    }
 
-		setTimeout(loadPage, 1000);
-	});
-	
-	/**
-	 * Tab change
-	 *
-	 */
-	$("body").on('click.trackGaTabChange', '[role=tab]', function() {
-		if(!$(this).data('gatracked')) {
-			if(typeof ga !== "undefined") {
-				var label = $(this).text();
+    ga('send', {
+      'hitType': 'event',
+      'eventCategory': category,
+      'eventAction': action,
+      'eventLabel': href,
+      'hitCallback': loadPage
+    })
 
-				ga('send', {
-					'hitType': 'event',
-					'eventCategory': 'Tab Change',
-					'eventAction': 'Changed',
-					'eventLabel': window.location.href + ':  '+label
-				});
+    setTimeout(loadPage, 1000)
+  })
 
-				$(this).data('gatracked', true);
-			}
-		}
-	});
+  /**
+   * Tab change
+   *
+   */
+  $('body').on('click.trackGaTabChange', '[role=tab]', function () {
+    if (!$(this).data('gatracked')) {
+      if (typeof ga !== 'undefined') {
+        var label = $(this).text()
 
-	/**
-	 * Form engagement.
-	 *
-	 */
-	$("body").on('focus.trackGaChange', 'input, textarea, select', function() {
-		var form = $(this).parents('form');
+        ga('send', {
+          'hitType': 'event',
+          'eventCategory': 'Tab Change',
+          'eventAction': 'Changed',
+          'eventLabel': window.location.href + ':  ' + label
+        })
 
-		if(!form.data('tracked')) {
-			if(typeof ga !== "undefined") {
-				ga('send', {
-					'hitType': 'event',
-					'eventCategory': 'Form Engagement',
-					'eventAction': 'Started',
-					'eventLabel': window.location.href + ': ' + form.attr('action')
-				});
-			}
+        $(this).data('gatracked', true)
+      }
+    }
+  })
 
-			form.data('tracked', true);
-		}
+  /**
+   * Form engagement.
+   *
+   */
+  $('body').on('focus.trackGaChange', 'input, textarea, select', function () {
+    var form = $(this).parents('form')
 
-		if(!$(this).data('gatracked')) {
-			if(typeof ga !== "undefined") {
-				var label = form.find('[for='+ $(this).attr('ID') +']').text();
+    if (!form.data('tracked')) {
+      if (typeof ga !== 'undefined') {
+        ga('send', {
+          'hitType': 'event',
+          'eventCategory': 'Form Engagement',
+          'eventAction': 'Started',
+          'eventLabel': window.location.href + ': ' + form.attr('action')
+        })
+      }
 
-				if(!label) {
-					label = $(this).parents('.field').find('label').first().text();
-				}
+      form.data('tracked', true)
+    }
 
-				ga('send', {
-					'hitType': 'event',
-					'eventCategory': 'Form Engagement',
-					'eventAction': 'Changed',
-					'eventLabel': window.location.href + ': ' + form.attr('action') + ' '+label
-				});
+    if (!$(this).data('gatracked')) {
+      if (typeof ga !== 'undefined') {
+        var label = form.find('[for=' + $(this).attr('ID') + ']').text()
 
-				$(this).data('gatracked', true);
-			}
-		}
-	});
+        if (!label) {
+          label = $(this).parents('.field').find('label').first().text()
+        }
 
+        ga('send', {
+          'hitType': 'event',
+          'eventCategory': 'Form Engagement',
+          'eventAction': 'Changed',
+          'eventLabel': window.location.href + ': ' + form.attr('action') + ' ' + label
+        })
 
-	$("body").on('click.trackGaButtonClick', '.button', function(e) {
-		var button = $(this);
+        $(this).data('gatracked', true)
+      }
+    }
+  })
 
-		if(!button.data('tracked')) {
-			if(typeof ga !== "undefined") {
-				var loadPage = function() {
-					document.location = href;
-				};
+  $('body').on('click.trackGaButtonClick', '.button', function (e) {
+    var button = $(this)
 
-				setTimeout(loadPage, 1000);
-			
-				var category, action;
+    if (!button.data('tracked')) {
+      if (typeof ga !== 'undefined') {
+        var loadPage = function () {
+          document.location = href
+        }
 
-				if($(this).data('ga-category')) {
-					category = $(this).data('ga-category');
-				} else {
-					category = 'Button';
-				}
+        setTimeout(loadPage, 1000)
 
-				if($(this).data('ga-action')) {
-					action = $(this).data('ga-action');
-				} else {
-					action = 'click';
-				}
+        var category, action
 
-				ga('send', {
-					'hitType': 'event',
-					'eventCategory': category,
-					'eventAction': action,
-					'useBeacon': true,
-					'eventLabel': window.location.href + ': ' + button.attr('name'),
-					'hitCallback': loadPage
-				});
-			}
+        if ($(this).data('ga-category')) {
+          category = $(this).data('ga-category')
+        } else {
+          category = 'Button'
+        }
 
-			button.data('tracked', true);
-		}
+        if ($(this).data('ga-action')) {
+          action = $(this).data('ga-action')
+        } else {
+          action = 'click'
+        }
 
-	});
+        ga('send', {
+          'hitType': 'event',
+          'eventCategory': category,
+          'eventAction': action,
+          'useBeacon': true,
+          'eventLabel': window.location.href + ': ' + button.attr('name'),
+          'hitCallback': loadPage
+        })
+      }
 
-	$("body").on('submit.trackGaFormSubmit', 'form', function() {
-		
-		var form = $(this);
+      button.data('tracked', true)
+    }
+  })
 
-		if(!form.data('tracked')) {
-			if(typeof ga !== "undefined") {
-				ga('send', {
-					'hitType': 'event',
-					'eventCategory': 'Form Engagement',
-					'eventAction': 'Started',
-					'eventLabel': window.location.href + ': ' + form.attr('action')
-				});
-			}
+  $('body').on('submit.trackGaFormSubmit', 'form', function () {
+    var form = $(this)
 
-			form.data('tracked', true);
-		}
+    if (!form.data('tracked')) {
+      if (typeof ga !== 'undefined') {
+        ga('send', {
+          'hitType': 'event',
+          'eventCategory': 'Form Engagement',
+          'eventAction': 'Started',
+          'eventLabel': window.location.href + ': ' + form.attr('action')
+        })
+      }
 
-		if($(this).data('submitted')) {
-			return;
-		}
+      form.data('tracked', true)
+    }
 
-		if(form.get(0).checkValidity() === true) {
-			if(typeof ga !== "undefined") {
-				$(this).data('submitted', true);
+    if ($(this).data('submitted')) {
+      return
+    }
 
-				ga("send", "event", 'Form Engagement', 'Submitted', window.location.href + ": "+ form.attr('action'), {
-					useBeacon: true
-				});
-			}
-		}
-	});
-});
+    if (form.get(0).checkValidity() === true) {
+      if (typeof ga !== 'undefined') {
+        $(this).data('submitted', true)
+
+        ga('send', 'event', 'Form Engagement', 'Submitted', window.location.href + ': ' + form.attr('action'), {
+          useBeacon: true
+        })
+      }
+    }
+  })
+})

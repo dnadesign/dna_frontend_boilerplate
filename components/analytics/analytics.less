@@ -1,0 +1,26 @@
+// Analytics
+//
+// This component adds standard automatic tracking to common elements such as
+// form fields and external links through `event tracking`. You will still need
+// to insert the `ga()` code into your website.
+//
+// If the global `ga()` function doesn't exist, then this component will not
+// throw any errors.
+//
+// Markup: <a href="http://external.com">Tracks</a>
+//
+// With the ga-category tag:
+//
+// Markup: <a href="clickme" data-ga-category="$..">
+//
+// With the ga-action tag:
+//
+// Markup: <a href="clickme" data-ga-category="$.." data-ga-action="">
+//
+// Automatic tracking events
+//
+//  * `Form Started` When the user begins to interact with any part of a form. 
+//  fired once per form, per page load
+//  * `Form Engagement` Fired when a user changes or modifies a field.
+//
+// Styleguide component.analytics
