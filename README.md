@@ -55,7 +55,7 @@ components. Components are located inside the `build/components/` folder. These
 components contain the CSS, Javascript and documentation to run and should, to
 some extent, be encapsulated from the rest of the site so they can be reused.
 
-## Components
+### Components
 
 Helix is part pattern lab. It includes a number of components and styles out of
 the box. The idea being you can compose and reuse components across projects as
@@ -65,7 +65,7 @@ To list all the components available in helix use `helix list`. This list is
 from the local checkout of the helix binary. To ensure you're got the latest
 list of components use `helix update` to update your binary.
 
-## Creating Components
+### Creating Components
 
 Components can be created via `helix create <component>` A component will be
 created in /build/components/component name and the project grunt file will
@@ -82,7 +82,17 @@ Inside a component the following layout is supports
 
 Javascript and Less files can also be nested in folders if needed.
 
-## Deleting Components
+### Deleting Components
 
 Components can be deleted via `helix delete <component>`
+
+### Updating helix within a project
+
+`cd $project && helix update`
+
+## Style Guide
+
+This project using `Knyle Style Sheets` and builds a living style guide through
+the grunt process. Each component can include documentation inside the less file.
+
 
