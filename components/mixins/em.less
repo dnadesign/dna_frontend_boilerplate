@@ -1,0 +1,162 @@
+@decimalPlaces: 6;
+
+/* Font-size */
+.e-fs(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    font-size: unit(@result, em);
+}
+
+/* Line-height */
+.e-lh(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    line-height: unit(@result, em);
+}
+
+/* Letter-spacing */
+.e-ls(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    letter-spacing: unit(@result, em);
+}
+
+/* Margin */
+.e-m(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    margin: unit(@result, em);
+}
+.e-m(@vertical, @horizontal, @orig) {
+    @verticalResult: round(@vertical / @orig, @decimalPlaces);
+    @horizontalResult: round(@horizontal / @orig, @decimalPlaces);
+    margin: unit(@verticalResult, em) unit(@horizontalResult, em);
+}
+.e-m(@top, @horizontal, @bottom, @orig) {
+    @topResult: round(@top / @orig, @decimalPlaces);
+    @horizontalResult: round(@horizontal / @orig, @decimalPlaces);
+    @bottomResult: round(@bottom / @orig, @decimalPlaces);
+    margin: unit(@topResult, em) unit(@horizontalResult, em) unit(@bottomResult, em);
+}
+.e-m(@top, @right, @bottom, @left, @orig) {
+    @topResult: round(@top / @orig, @decimalPlaces);
+    @rightResult: round(@right / @orig, @decimalPlaces);
+    @bottomResult: round(@bottom / @orig, @decimalPlaces);
+    @leftResult: round(@left / @orig, @decimalPlaces);
+    margin: unit(@topResult, em) unit(@rightResult, em) unit(@bottomResult, em) unit(@leftResult, em);
+}
+
+/* Margin specific */
+.e-mt(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    margin-top: unit(@result, em);
+}
+
+.e-mr(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    margin-right: unit(@result, em);
+}
+
+.e-mb(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    margin-bottom: unit(@result, em);
+}
+
+.e-ml(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    margin-left: unit(@result, em);
+}
+
+/* Padding */
+.e-p(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    padding: unit(@result, em);
+}
+.e-p(@vertical, @horizontal, @orig) {
+    @verticalResult: round(@vertical / @orig, @decimalPlaces);
+    @horizontalResult: round(@horizontal / @orig, @decimalPlaces);
+    padding: unit(@verticalResult, em) unit(@horizontalResult, em);
+}
+.e-p(@top, @horizontal, @bottom, @orig) {
+    @topResult: round(@top / @orig, @decimalPlaces);
+    @horizontalResult: round(@horizontal / @orig, @decimalPlaces);
+    @bottomResult: round(@bottom / @orig, @decimalPlaces);
+    padding: unit(@topResult, em) unit(@horizontalResult, em) unit(@bottomResult, em);
+}
+.e-p(@top, @right, @bottom, @left, @orig) {
+    @topResult: round(@top / @orig, @decimalPlaces);
+    @rightResult: round(@right / @orig, @decimalPlaces);
+    @bottomResult: round(@bottom / @orig, @decimalPlaces);
+    @leftResult: round(@left / @orig, @decimalPlaces);
+    padding: unit(@topResult, em) unit(@rightResult, em) unit(@bottomResult, em) unit(@leftResult, em);
+}
+
+/* Padding specific */
+.e-pt(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    padding-top: unit(@result, em);
+}
+
+.e-pr(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    padding-right: unit(@result, em);
+}
+
+.e-pb(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    padding-bottom: unit(@result, em);
+}
+
+.e-pl(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    padding-left: unit(@result, em);
+}
+
+/* Position */
+.e-t(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    top: unit(@result, em);
+}
+
+.e-b(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    bottom: unit(@result, em);
+}
+
+.e-l(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    left: unit(@result, em);
+}
+
+.e-r(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    right: unit(@result, em);
+}
+
+/* Height */
+.e-h(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    height: unit(@result, em);
+}
+
+.e-h-min(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    min-height: unit(@result, em);
+}
+
+.e-h-max(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    max-height: unit(@result, em);
+}
+
+/* Width */
+.e-w(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    width: unit(@result, em);
+}
+
+.e-w-min(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    min-width: unit(@result, em);
+}
+
+.e-w-max(@new, @orig) {
+    @result: round(@new / @orig, @decimalPlaces);
+    max-width: unit(@result, em);
+}
