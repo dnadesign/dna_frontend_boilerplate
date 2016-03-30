@@ -234,7 +234,7 @@ module.exports = {
       grunt.config.merge({
         kss: {
           options: {
-            verbose: true
+            config: 'kssconf.json'
           },
           dist: {
             src: ['build/components/*/'],
