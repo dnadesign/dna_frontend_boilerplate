@@ -99,23 +99,26 @@ module.exports = {
       var jsFiles = grunt.file.expand('build/components/**/*.js'),
         lessFiles = grunt.file.expand('build/components/**/*.less')
 
-      grunt.config.merge({
-        'concat': {
-          'dnajs': {
-            dest: 'dist/working/production.js',
-            src: jsFiles
+      // Add JS files to watch list, if any exist
+      if ( ! _.isEmpty(jsFiles)) {
+        grunt.config.merge({
+          'concat': {
+            'dnajs': {
+              dest: 'dist/working/production.js',
+              src: jsFiles
+            }
           }
-        }
-      })
+        })
+        grunt.config.merge({
+          'watch': {
+            'dnajs': {
+              files: jsFiles,
+              tasks: ['concat:dnajs']
+            }
+          }
+        })
+      }
 
-      grunt.config.merge({
-        'watch': {
-          'dnajs': {
-            files: jsFiles,
-            tasks: ['concat:dnajs']
-          }
-        }
-      })
       // for each of the less files extract the media query information from
       // the file path and generate buckets of data
       _.each(lessFiles, function (file) {
